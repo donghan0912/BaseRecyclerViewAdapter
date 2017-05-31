@@ -113,5 +113,12 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
+    public BaseViewHolder setOnClickListener(@IdRes int id, View.OnClickListener listener) {
+        View view = findViewById(id);
+        view.setOnClickListener(listener);
+        setClickable(false);
+        return this;
+    }
+
 
 }

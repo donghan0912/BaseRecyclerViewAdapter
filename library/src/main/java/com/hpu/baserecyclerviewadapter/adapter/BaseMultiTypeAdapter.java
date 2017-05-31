@@ -2,6 +2,7 @@ package com.hpu.baserecyclerviewadapter.adapter;
 
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
@@ -21,6 +22,8 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
     private List<BaseItem<T>> mData;
     @LayoutRes
     private int mDisplayLayoutRes;
+    private OnItemClickListener mOnItemClickListener;
+    private OnItemLongClickListener mOnItemLongClickListener;
 
     public BaseMultiTypeAdapter() {
         this(null);
@@ -37,15 +40,31 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
     }
 
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         for (int i = 0; i < mData.size(); i++) {
             BaseItem baseItem = mData.get(i);
             if (viewType == baseItem.getItemViewType()) {
-                BaseViewHolder viewHolder = baseItem.onCreateViewHolder(parent, viewType);
+                final BaseViewHolder viewHolder = baseItem.onCreateViewHolder(parent, viewType);
                 if (baseItem instanceof DisplayItem) {
                     viewHolder.setClickable(false);
                 } else {
                     viewHolder.setClickable(true);
+                }
+                if (mOnItemClickListener != null) {
+                    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mOnItemClickListener.onItemClick(viewHolder.itemView, viewHolder.getAdapterPosition());
+                        }
+                    });
+                }
+                if (mOnItemLongClickListener != null) {
+                    viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            return mOnItemLongClickListener.onItemLongClick(viewHolder.itemView, viewHolder.getAdapterPosition());
+                        }
+                    });
                 }
                 return viewHolder;
             }
@@ -92,5 +111,22 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
             throw new IllegalStateException("you should call setDisplayLayout() method before call getDisplayView() method ");
         }
         item.onBindView(bindView);
+    }
+
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.mOnItemClickListener = listener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener listener){
+        this.mOnItemLongClickListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public interface OnItemLongClickListener {
+        boolean onItemLongClick(View view, int position);
     }
 }

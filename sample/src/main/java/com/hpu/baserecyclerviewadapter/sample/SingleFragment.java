@@ -55,19 +55,19 @@ public class SingleFragment extends Fragment {
 //        recyclerView.setAdapter(adapter);
 //        adapter.setData(list);
 
-        recyclerView.addOnItemTouchListener(new ItemClickListener(recyclerView, new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
-            }
-        }));
-
-        recyclerView.addOnItemTouchListener(new ItemClickListener(recyclerView, new OnItemLongClickListener() {
-            @Override
-            public void onItemLongClick(View view, int position) {
-                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
-            }
-        }));
+//        recyclerView.addOnItemTouchListener(new ItemClickListener(recyclerView, new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
+//            }
+//        }));
+//
+//        recyclerView.addOnItemTouchListener(new ItemClickListener(recyclerView, new OnItemLongClickListener() {
+//            @Override
+//            public void onItemLongClick(View view, int position) {
+//                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
+//            }
+//        }));
 
         List<BaseItem<String>> aaa = new ArrayList();
         for (int i = 0; i < 20; i++) {
@@ -81,13 +81,25 @@ public class SingleFragment extends Fragment {
                 }
 
                 @Override
-                public void onBindViewHolder(BaseViewHolder holder, int position) {
+                public void onBindViewHolder(BaseViewHolder holder, final int position) {
                     holder.setText(R.id.content, mData);
+                    holder.setOnClickListener(R.id.content, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getContext(), position + "/1234", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         }
         BaseMultiTypeAdapter adapter1 = new BaseMultiTypeAdapter();
         recyclerView.setAdapter(adapter1);
         adapter1.setData(aaa);
+        adapter1.setOnItemClickListener(new BaseMultiTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

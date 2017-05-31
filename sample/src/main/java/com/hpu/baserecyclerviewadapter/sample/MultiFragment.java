@@ -66,10 +66,22 @@ public class MultiFragment extends Fragment {
             }
 
             @Override
-            public void onBindRecyclerViewHolder(BaseViewHolder holder, int position, int itemViewType) {
+            public void onBindRecyclerViewHolder(BaseViewHolder holder, final int position, int itemViewType) {
                 if (itemViewType == TYPE_FIR) {
                     holder.setText(R.id.content, (String) getItem(position))
                             .setText(R.id.content2, getItem(position) + "sss");
+                    holder.setOnClickListener(R.id.content, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getContext(), position + "/111", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    holder.setOnClickListener(R.id.content2, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getContext(), position + "/222", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     holder.setText(R.id.content3, (String) getItem(position))
                             .setText(R.id.content4, getItem(position) + "sss");
@@ -93,5 +105,6 @@ public class MultiFragment extends Fragment {
                 Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
             }
         }));
+
     }
 }

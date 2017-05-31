@@ -67,4 +67,5 @@ public class ItemClickListener extends RecyclerView.SimpleOnItemTouchListener {
         gestureDetectorCompat.onTouchEvent(e);
         return false;
     }
+
 }
