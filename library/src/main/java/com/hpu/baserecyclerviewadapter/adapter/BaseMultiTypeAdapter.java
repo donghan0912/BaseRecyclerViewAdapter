@@ -20,6 +20,8 @@ import java.util.List;
 public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter<BaseViewHolder> {
 
     private List<BaseItem<T>> mData;
+    private List<BaseItem> mHeaders = new ArrayList<>();
+    private List<BaseItem> mFooters = new ArrayList<>();
     @LayoutRes
     private int mDisplayLayoutRes;
     private OnItemClickListener mOnItemClickListener;
@@ -45,26 +47,23 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
             BaseItem baseItem = mData.get(i);
             if (viewType == baseItem.getItemViewType()) {
                 final BaseViewHolder viewHolder = baseItem.onCreateViewHolder(parent, viewType);
-                if (baseItem instanceof DisplayItem) {
-                    viewHolder.setClickable(false);
-                } else {
-                    viewHolder.setClickable(true);
-                }
-                if (mOnItemClickListener != null) {
-                    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mOnItemClickListener.onItemClick(viewHolder.itemView, viewHolder.getAdapterPosition());
-                        }
-                    });
-                }
-                if (mOnItemLongClickListener != null) {
-                    viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View v) {
-                            return mOnItemLongClickListener.onItemLongClick(viewHolder.itemView, viewHolder.getAdapterPosition());
-                        }
-                    });
+                if (!(baseItem instanceof DisplayItem)) {
+                    if (mOnItemClickListener != null) {
+                        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mOnItemClickListener.onItemClick(viewHolder.itemView, viewHolder.getAdapterPosition());
+                            }
+                        });
+                    }
+                    if (mOnItemLongClickListener != null) {
+                        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                return mOnItemLongClickListener.onItemLongClick(viewHolder.itemView, viewHolder.getAdapterPosition());
+                            }
+                        });
+                    }
                 }
                 return viewHolder;
             }
@@ -111,6 +110,15 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
             throw new IllegalStateException("you should call setDisplayLayout() method before call getDisplayView() method ");
         }
         item.onBindView(bindView);
+    }
+
+    public void addHeader(BaseItem item) {
+        // TODO 两种方式实现，考虑易用、扩展性
+        if (item == null) {
+            throw new NullPointerException("headItem can't be null");
+        }
+        mData.add(0, item);
+        notifyItemInserted(0);
     }
 
 

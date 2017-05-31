@@ -1,7 +1,9 @@
 package com.hpu.baserecyclerviewadapter.sample.multi;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
@@ -25,8 +27,15 @@ public class ThirdItem extends BaseItem<Integer> {
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
+    public void onBindViewHolder(BaseViewHolder holder, final int position) {
         ImageView img = holder.findViewById(R.id.img);
         Glide.with(img.getContext()).load(mData).into(img);
+        holder.setOnClickListener(R.id.img, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), position + "/图片", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 }

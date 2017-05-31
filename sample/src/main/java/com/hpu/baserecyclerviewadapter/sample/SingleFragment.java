@@ -11,12 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.hpu.baserecyclerviewadapter.adapter.BaseRecyclerViewAdapter;
 import com.hpu.baserecyclerviewadapter.adapter.BaseMultiTypeAdapter;
+import com.hpu.baserecyclerviewadapter.adapter.BaseRecyclerViewAdapter;
 import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
-import com.hpu.baserecyclerviewadapter.listener.ItemClickListener;
-import com.hpu.baserecyclerviewadapter.listener.OnItemClickListener;
-import com.hpu.baserecyclerviewadapter.listener.OnItemLongClickListener;
 import com.hpu.baserecyclerviewadapter.item.BaseItem;
 
 import java.util.ArrayList;
@@ -52,22 +49,6 @@ public class SingleFragment extends Fragment {
                         .setText(R.id.content2, getItem(position) + "sss");
             }
         };
-//        recyclerView.setAdapter(adapter);
-//        adapter.setData(list);
-
-//        recyclerView.addOnItemTouchListener(new ItemClickListener(recyclerView, new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
-//            }
-//        }));
-//
-//        recyclerView.addOnItemTouchListener(new ItemClickListener(recyclerView, new OnItemLongClickListener() {
-//            @Override
-//            public void onItemLongClick(View view, int position) {
-//                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
-//            }
-//        }));
 
         List<BaseItem<String>> aaa = new ArrayList();
         for (int i = 0; i < 20; i++) {
@@ -99,6 +80,17 @@ public class SingleFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
+            }
+        });
+        adapter1.addHeader(new BaseItem() {
+            @Override
+            public int getLayoutResource() {
+                return R.layout.layout_loadmore;
+            }
+
+            @Override
+            public void onBindViewHolder(BaseViewHolder holder, int position) {
+
             }
         });
     }

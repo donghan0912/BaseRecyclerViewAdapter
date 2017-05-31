@@ -21,7 +21,6 @@ import android.widget.TextView;
 public class BaseViewHolder extends RecyclerView.ViewHolder {
     private View mItemView;
     private SparseArray<View> views;
-    private boolean clickable = true;
 
     public BaseViewHolder(View itemView) {
         super(itemView);
@@ -46,14 +45,6 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
             views.put(id, view);
         }
         return (T) view;
-    }
-
-    public void setClickable(boolean clickable) {
-        this.clickable = clickable;
-    }
-
-    public boolean getClickable() {
-        return clickable;
     }
 
     public BaseViewHolder setText(@IdRes int id, CharSequence text) {
@@ -116,7 +107,6 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public BaseViewHolder setOnClickListener(@IdRes int id, View.OnClickListener listener) {
         View view = findViewById(id);
         view.setOnClickListener(listener);
-        setClickable(false);
         return this;
     }
 

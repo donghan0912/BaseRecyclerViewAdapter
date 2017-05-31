@@ -13,9 +13,6 @@ import android.widget.Toast;
 
 import com.hpu.baserecyclerviewadapter.adapter.BaseRecyclerViewAdapter;
 import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
-import com.hpu.baserecyclerviewadapter.listener.ItemClickListener;
-import com.hpu.baserecyclerviewadapter.listener.OnItemClickListener;
-import com.hpu.baserecyclerviewadapter.listener.OnItemLongClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,19 +89,6 @@ public class MultiFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         adapter.setData(list);
 
-        recyclerView.addOnItemTouchListener(new ItemClickListener(recyclerView, new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
-            }
-        }));
-
-        recyclerView.addOnItemTouchListener(new ItemClickListener(recyclerView, new OnItemLongClickListener() {
-            @Override
-            public void onItemLongClick(View view, int position) {
-                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
-            }
-        }));
 
     }
 }

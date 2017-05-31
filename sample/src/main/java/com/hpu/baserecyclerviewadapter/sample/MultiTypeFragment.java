@@ -14,9 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hpu.baserecyclerviewadapter.adapter.BaseMultiTypeAdapter;
-import com.hpu.baserecyclerviewadapter.listener.ItemClickListener;
-import com.hpu.baserecyclerviewadapter.listener.OnItemClickListener;
-import com.hpu.baserecyclerviewadapter.listener.OnItemLongClickListener;
 import com.hpu.baserecyclerviewadapter.item.BaseItem;
 import com.hpu.baserecyclerviewadapter.item.OnBindView;
 import com.hpu.baserecyclerviewadapter.sample.multi.FirstItem;
@@ -53,19 +50,21 @@ public class MultiTypeFragment extends Fragment {
         final BaseMultiTypeAdapter baseMultiTypeAdapter = new BaseMultiTypeAdapter();
         recyclerView.setAdapter(baseMultiTypeAdapter);
 
-        recyclerView.addOnItemTouchListener(new ItemClickListener(recyclerView, new OnItemClickListener() {
+
+        baseMultiTypeAdapter.setOnItemClickListener(new BaseMultiTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
             }
-        }));
+        });
 
-        recyclerView.addOnItemTouchListener(new ItemClickListener(recyclerView, new OnItemLongClickListener() {
+        baseMultiTypeAdapter.setOnItemLongClickListener(new BaseMultiTypeAdapter.OnItemLongClickListener() {
             @Override
-            public void onItemLongClick(View view, int position) {
+            public boolean onItemLongClick(View view, int position) {
                 Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
+                return false;
             }
-        }));
+        });
 
         new Handler().postDelayed(new Runnable() {
             @Override

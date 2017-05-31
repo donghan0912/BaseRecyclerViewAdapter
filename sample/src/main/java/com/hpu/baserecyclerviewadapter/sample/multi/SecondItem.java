@@ -1,6 +1,8 @@
 package com.hpu.baserecyclerviewadapter.sample.multi;
 
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.Toast;
 
 import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
 import com.hpu.baserecyclerviewadapter.item.BaseItem;
@@ -22,8 +24,14 @@ public class SecondItem extends BaseItem<String> {
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
+    public void onBindViewHolder(BaseViewHolder holder, final int position) {
         holder.setText(R.id.content3, mData);
         holder.setTextColor(R.id.content3, R.color.colorAccent);
+        holder.setOnClickListener(R.id.content3, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), position + "/红色", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
