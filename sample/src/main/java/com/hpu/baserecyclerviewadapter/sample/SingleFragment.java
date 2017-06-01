@@ -1,11 +1,13 @@
 package com.hpu.baserecyclerviewadapter.sample;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,20 +39,8 @@ public class SingleFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-        final List<String> list = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            list.add("第" + i + "数据");
-        }
-        BaseRecyclerViewAdapter adapter = new BaseRecyclerViewAdapter(R.layout.sample_fir_item) {
 
-            @Override
-            public void onBindRecyclerViewHolder(BaseViewHolder holder, int position) {
-                holder.setText(R.id.content, (String)getItem(position))
-                        .setText(R.id.content2, getItem(position) + "sss");
-            }
-        };
-
-        List<BaseItem<String>> aaa = new ArrayList();
+        final List<BaseItem<String>> aaa = new ArrayList();
         for (int i = 0; i < 20; i++) {
 //            aaa.add(new FirstItem("第" + i + "数据aaa"));
             final String s = "第" + i + "数据aaagggggggggggg";
@@ -73,9 +63,10 @@ public class SingleFragment extends Fragment {
                 }
             });
         }
-        BaseMultiTypeAdapter adapter1 = new BaseMultiTypeAdapter();
+        final BaseMultiTypeAdapter adapter1 = new BaseMultiTypeAdapter();
         recyclerView.setAdapter(adapter1);
-        adapter1.setData(aaa);
+//        adapter1.setData(aaa);
+        adapter1.setDisplayLayout(R.layout.layout_loading);
         adapter1.setOnItemClickListener(new BaseMultiTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -85,13 +76,57 @@ public class SingleFragment extends Fragment {
         adapter1.addHeader(new BaseItem() {
             @Override
             public int getLayoutResource() {
+                return R.layout.layout_head;
+            }
+
+            @Override
+            public void onBindViewHolder(BaseViewHolder holder, final int position) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getContext(), position + "我是头，哈哈哈", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                holder.setOnClickListener(R.id.head, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getContext(), position + "我是头的子View", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        adapter1.addFooter(new BaseItem() {
+            @Override
+            public int getLayoutResource() {
                 return R.layout.layout_loadmore;
             }
 
             @Override
-            public void onBindViewHolder(BaseViewHolder holder, int position) {
-
+            public void onBindViewHolder(BaseViewHolder holder, final int position) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getContext(), position + "尾巴，哈哈哈", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapter1.setDisplayLayout(R.layout.layout_error);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter1.setData(aaa);
+                    }
+                }, 4000);
+
+            }
+        }, 4000);
+
     }
+
+
 }

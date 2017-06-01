@@ -1,5 +1,6 @@
 package com.hpu.baserecyclerviewadapter.adapter;
 
+import android.content.res.Resources;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -22,8 +23,7 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
     private List<BaseItem<T>> mData;
     private List<BaseItem> mHeaders = new ArrayList<>();
     private List<BaseItem> mFooters = new ArrayList<>();
-    @LayoutRes
-    private int mDisplayLayoutRes;
+    private List<DisplayItem> mDisplays = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
 
@@ -32,38 +32,54 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
     }
 
     public BaseMultiTypeAdapter(List<BaseItem<T>> data) {
-        this.mData = data == null ? new ArrayList<BaseItem<T>>() : data;
+        mData = new ArrayList<>();
+        if (data != null) {
+            mData.addAll(data);
+        }
     }
 
     public void setData(List<BaseItem<T>> data) {
-//        this.mData.clear();
-        this.mData = data;
+        mDisplays.clear();
+        mData.clear();
+        mData.addAll(data);
         notifyDataSetChanged();
     }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
-        for (int i = 0; i < mData.size(); i++) {
-            BaseItem baseItem = mData.get(i);
-            if (viewType == baseItem.getItemViewType()) {
-                final BaseViewHolder viewHolder = baseItem.onCreateViewHolder(parent, viewType);
-                if (!(baseItem instanceof DisplayItem)) {
-                    if (mOnItemClickListener != null) {
-                        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                mOnItemClickListener.onItemClick(viewHolder.itemView, viewHolder.getAdapterPosition());
-                            }
-                        });
-                    }
-                    if (mOnItemLongClickListener != null) {
-                        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(View v) {
-                                return mOnItemLongClickListener.onItemLongClick(viewHolder.itemView, viewHolder.getAdapterPosition());
-                            }
-                        });
-                    }
+        for (BaseItem item : mHeaders) {
+            if (viewType == item.getItemViewType()) {
+                return item.onCreateViewHolder(parent, viewType);
+            }
+        }
+        for (BaseItem item : mFooters) {
+            if (viewType == item.getItemViewType()) {
+                return item.onCreateViewHolder(parent, viewType);
+            }
+        }
+        for (DisplayItem item : mDisplays) {
+            if (viewType == item.getItemViewType()) {
+                return item.onCreateViewHolder(parent, viewType);
+            }
+        }
+        for (BaseItem item : mData) {
+            if (viewType == item.getItemViewType()) {
+                final BaseViewHolder viewHolder = item.onCreateViewHolder(parent, viewType);
+                if (mOnItemClickListener != null) {
+                    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mOnItemClickListener.onItemClick(viewHolder.itemView, viewHolder.getAdapterPosition() - mHeaders.size());
+                        }
+                    });
+                }
+                if (mOnItemLongClickListener != null) {
+                    viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            return mOnItemLongClickListener.onItemLongClick(viewHolder.itemView, viewHolder.getAdapterPosition() - mHeaders.size());
+                        }
+                    });
                 }
                 return viewHolder;
             }
@@ -73,60 +89,86 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        this.mData.get(position).onBindViewHolder(holder, position);
+        if (mHeaders.size() > 0 && position < mHeaders.size()) {
+            mHeaders.get(position).onBindViewHolder(holder, position);
+        } else if (mFooters.size() > 0 && position >= mData.size() + mHeaders.size() + mDisplays.size()) {
+            int footerPosition = position - mData.size() - mHeaders.size() - mDisplays.size();
+            mFooters.get(footerPosition).onBindViewHolder(holder, footerPosition);
+        } else if (mDisplays.size() > 0) {
+            int displayPosition = position - mHeaders.size();
+            mDisplays.get(displayPosition).onBindViewHolder(holder, displayPosition);
+        } else {
+            int dataPosition = position - mHeaders.size();
+            mData.get(dataPosition).onBindViewHolder(holder, dataPosition);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mHeaders.size() + mData.size() + mFooters.size() + mDisplays.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return this.mData.get(position).getItemViewType();
+        if (mHeaders.size() > 0 && position < mHeaders.size()) {
+            return mHeaders.get(position).getItemViewType();
+        } else if (mFooters.size() > 0 && position >= mData.size() + mHeaders.size() + mDisplays.size()) {
+            return mFooters.get(position - mData.size() - mHeaders.size() - mDisplays.size()).getItemViewType();
+        } else if (mDisplays.size() > 0) {
+            return mDisplays.get(position - mHeaders.size()).getItemViewType();
+        }
+        return mData.get(position - mHeaders.size()).getItemViewType();
     }
 
     /**
      * 设置要展示的布局
+     *
      * @param resource
      */
     public void setDisplayLayout(@LayoutRes int resource) {
-        this.mDisplayLayoutRes = resource;
-        if (mDisplayLayoutRes <= 0) {
-            return;
+        if (resource <= 0) {
+            throw new Resources.NotFoundException("Resource ID \"" + resource + "\" is not valid, ");
         }
+        mDisplays.clear();
         mData.clear();
-        mData.add(new DisplayItem(mDisplayLayoutRes));
-        notifyDataSetChanged();
+        mDisplays.add(new DisplayItem(resource));
+        notifyItemChanged(mHeaders.size());
     }
 
     /**
      * 获取当前显示布局view
+     *
      * @param bindView
      */
     public void getDisplayView(OnBindView bindView) {
-        DisplayItem item = (DisplayItem) mData.get(0);
-        if (item == null) {
+        if (mDisplays.size() == 0) {
             throw new IllegalStateException("you should call setDisplayLayout() method before call getDisplayView() method ");
         }
+        DisplayItem item = mDisplays.get(0);
         item.onBindView(bindView);
     }
 
     public void addHeader(BaseItem item) {
-        // TODO 两种方式实现，考虑易用、扩展性
         if (item == null) {
-            throw new NullPointerException("headItem can't be null");
+            throw new NullPointerException("item can't be null");
         }
-        mData.add(0, item);
+        mHeaders.add(item);
         notifyItemInserted(0);
     }
 
+    public void addFooter(BaseItem item) {
+        if (item == null) {
+            throw new NullPointerException("item can't be null");
+        }
+        mFooters.add(item);
+        notifyItemInserted(mData.size() + mHeaders.size());
+    }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
 
-    public void setOnItemLongClickListener(OnItemLongClickListener listener){
+    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
         this.mOnItemLongClickListener = listener;
     }
 
