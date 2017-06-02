@@ -45,6 +45,17 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
         notifyDataSetChanged();
     }
 
+    public void addData(BaseItem data) {
+        mData.add(data);
+        notifyItemInserted(mHeaders.size() + mData.size());
+    }
+
+    public void addData(List<BaseItem<T>> data) {
+        int index = mData.size() + mHeaders.size();
+        mData.addAll(data);
+        notifyItemRangeInserted(index, data.size());
+    }
+
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         for (BaseItem item : mHeaders) {
@@ -162,6 +173,14 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
         }
         mFooters.add(item);
         notifyItemInserted(mData.size() + mHeaders.size());
+    }
+
+    public void setLoadMore(@LayoutRes int resource) {
+        if (resource <= 0) {
+            throw new Resources.NotFoundException("Resource ID \"" + resource + "\" is not valid, ");
+        }
+        mFooters.add(new DisplayItem(resource));
+        notifyItemInserted(mHeaders.size() + mData.size());
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
