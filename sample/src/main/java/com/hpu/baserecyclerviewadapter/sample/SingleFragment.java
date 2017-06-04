@@ -131,14 +131,9 @@ public class SingleFragment extends Fragment {
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
             @Override
             public void onLoadMore() {
-                List list = new ArrayList();
+                List<BaseItem> list = new ArrayList<BaseItem>();
                 for (int i = 0; i < 10; i++) {
-                    list.add(new BaseItem<String>("这是第" + i + "条新数据") {
-
-                        @Override
-                        public int getLayoutResource() {
-                            return R.layout.sample_fir_item;
-                        }
+                    list.add(new BaseItem<String>("这是第" + i + "条新数据", R.layout.sample_fir_item) {
 
                         @Override
                         public void onBindViewHolder(BaseViewHolder holder, final int position) {

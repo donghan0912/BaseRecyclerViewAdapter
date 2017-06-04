@@ -18,12 +18,13 @@ import java.util.List;
  * Created by Administrator on 2017/5/16.
  */
 
-public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter<BaseViewHolder> {
+public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
     private List<BaseItem<T>> mData;
     private List<BaseItem> mHeaders = new ArrayList<>();
     private List<BaseItem> mFooters = new ArrayList<>();
     private List<DisplayItem> mDisplays = new ArrayList<>();
+    private List<DisplayItem> mLoadMore = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
 
@@ -73,6 +74,11 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
                 return item.onCreateViewHolder(parent, viewType);
             }
         }
+        for (DisplayItem item : mLoadMore) {
+            if (viewType == item.getItemViewType()) {
+                return item.onCreateViewHolder(parent, viewType);
+            }
+        }
         for (BaseItem item : mData) {
             if (viewType == item.getItemViewType()) {
                 final BaseViewHolder viewHolder = item.onCreateViewHolder(parent, viewType);
@@ -100,14 +106,18 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
+        int footerPosition = position - mData.size() - mHeaders.size() - mDisplays.size() - mLoadMore.size();
+        int displayPosition = position - mHeaders.size();
+        int loadMorePosition = position - mData.size() - mHeaders.size() - mDisplays.size();
+
         if (mHeaders.size() > 0 && position < mHeaders.size()) {
             mHeaders.get(position).onBindViewHolder(holder, position);
-        } else if (mFooters.size() > 0 && position >= mData.size() + mHeaders.size() + mDisplays.size()) {
-            int footerPosition = position - mData.size() - mHeaders.size() - mDisplays.size();
+        } else if (mFooters.size() > 0 && footerPosition >= 0) {
             mFooters.get(footerPosition).onBindViewHolder(holder, footerPosition);
-        } else if (mDisplays.size() > 0) {
-            int displayPosition = position - mHeaders.size();
+        } else if (mDisplays.size() > 0 && displayPosition >= 0) {
             mDisplays.get(displayPosition).onBindViewHolder(holder, displayPosition);
+        } else if (mLoadMore.size() > 0 && loadMorePosition >= 0) {
+            mLoadMore.get(loadMorePosition);
         } else {
             int dataPosition = position - mHeaders.size();
             mData.get(dataPosition).onBindViewHolder(holder, dataPosition);
@@ -116,17 +126,19 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
 
     @Override
     public int getItemCount() {
-        return mHeaders.size() + mData.size() + mFooters.size() + mDisplays.size();
+        return mHeaders.size() + mData.size() + mFooters.size() + mDisplays.size() + mLoadMore.size();
     }
 
     @Override
     public int getItemViewType(int position) {
         if (mHeaders.size() > 0 && position < mHeaders.size()) {
             return mHeaders.get(position).getItemViewType();
-        } else if (mFooters.size() > 0 && position >= mData.size() + mHeaders.size() + mDisplays.size()) {
-            return mFooters.get(position - mData.size() - mHeaders.size() - mDisplays.size()).getItemViewType();
-        } else if (mDisplays.size() > 0) {
+        } else if (mFooters.size() > 0 && position >= mData.size() + mHeaders.size() + mDisplays.size() + mLoadMore.size()) {
+            return mFooters.get(position - mData.size() - mHeaders.size() - mDisplays.size() - mLoadMore.size()).getItemViewType();
+        } else if (mDisplays.size() > 0 && position >= mHeaders.size()) {
             return mDisplays.get(position - mHeaders.size()).getItemViewType();
+        } else if (mLoadMore.size() > 0 && position >= mData.size() + mHeaders.size() + mDisplays.size()) {
+            return mLoadMore.get(position - mData.size() - mHeaders.size() - mDisplays.size()).getItemViewType();
         }
         return mData.get(position - mHeaders.size()).getItemViewType();
     }
@@ -179,7 +191,7 @@ public class BaseMultiTypeAdapter<T extends Object> extends RecyclerView.Adapter
         if (resource <= 0) {
             throw new Resources.NotFoundException("Resource ID \"" + resource + "\" is not valid, ");
         }
-        mFooters.add(new DisplayItem(resource));
+        mLoadMore.add(new DisplayItem(resource));
         notifyItemInserted(mHeaders.size() + mData.size());
     }
 

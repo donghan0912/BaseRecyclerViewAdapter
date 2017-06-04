@@ -1,7 +1,9 @@
 package com.hpu.baserecyclerviewadapter.item;
 
 import android.content.res.Resources;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +14,34 @@ import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
  * Created by Administrator on 2017/5/19.
  */
 
-public abstract class BaseItem<T> implements Item {
+public class BaseItem<T> implements Item {
     public T mData;
+    public int mLayoutRes;
 
-    public BaseItem(){}
+    public BaseItem(){
+        this(null, 0);
+    }
 
     public BaseItem(@NonNull T t) {
+        this(t, 0);
+    }
+
+    public BaseItem(@LayoutRes int resource) {
+        this(null, resource);
+    }
+
+    public BaseItem(@Nullable T t, @LayoutRes int resource) {
         this.mData = t;
+        this.mLayoutRes = resource;
     }
 
     public void setData(T t) {
         this.mData = t;
+    }
+
+    @Override
+    public int getLayoutResource() {
+        return mLayoutRes;
     }
 
     @Override
@@ -43,4 +62,8 @@ public abstract class BaseItem<T> implements Item {
         return new BaseViewHolder(itemView);
     }
 
+    @Override
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
+
+    }
 }
