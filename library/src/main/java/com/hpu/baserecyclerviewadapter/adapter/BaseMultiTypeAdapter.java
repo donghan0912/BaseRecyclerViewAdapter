@@ -51,7 +51,8 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     public void addData(List<BaseItem<T>> data) {
         int index = mData.size() + mHeaders.size();
         mData.addAll(data);
-        notifyItemRangeInserted(index, data.size());
+        notifyItemRangeChanged(index, data.size());
+//        notifyItemRangeInserted(index, data.size());
     }
 
     @Override
@@ -141,6 +142,8 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     }
 
     public void setDisplayLayout(SimpleItem simpleItem) {
+        // TODO 重构display 和 data 顺序
+
         if (simpleItem == null) {
             throw new NullPointerException("the parameter simpleItem can't be null");
         }
@@ -171,6 +174,7 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
             throw new NullPointerException("the parameter simpleItem can't be null");
         }
         mLoadMore.clear();
+        notifyItemRemoved(mHeaders.size() + mData.size());
         mLoadMore.add(simpleItem);
         notifyItemInserted(mHeaders.size() + mData.size());
     }
