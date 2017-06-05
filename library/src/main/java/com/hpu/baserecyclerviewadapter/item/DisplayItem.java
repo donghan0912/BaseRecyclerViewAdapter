@@ -9,7 +9,6 @@ import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
  */
 
 public class DisplayItem extends BaseItem {
-    private int mLayoutRes;
     private OnBindView mBindView;
 
     public DisplayItem(@LayoutRes int resource) {

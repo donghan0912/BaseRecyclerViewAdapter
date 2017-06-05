@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,9 @@ import android.widget.Toast;
 
 import com.hpu.baserecyclerviewadapter.EndlessRecyclerOnScrollListener;
 import com.hpu.baserecyclerviewadapter.adapter.BaseMultiTypeAdapter;
-import com.hpu.baserecyclerviewadapter.adapter.BaseRecyclerViewAdapter;
 import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
 import com.hpu.baserecyclerviewadapter.item.BaseItem;
+import com.hpu.baserecyclerviewadapter.item.SimpleItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +26,8 @@ import java.util.List;
  */
 
 public class SingleFragment extends Fragment {
+    private boolean loadMore = true;
+    private List<BaseItem> list = new ArrayList<BaseItem>();
 
     @Nullable
     @Override
@@ -127,13 +128,22 @@ public class SingleFragment extends Fragment {
 //            }
 //        }, 4000);
 
-        adapter1.setLoadMore(R.layout.layout_loadmore);
+        adapter1.setLoadMore(new SimpleItem(R.layout.layout_loadmore));
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
             @Override
             public void onLoadMore() {
-                List<BaseItem> list = new ArrayList<BaseItem>();
+                List<BaseItem> list2 = new ArrayList<BaseItem>();
+                if (list.size() >= 10) {
+                    adapter1.removeLoadMore();
+                    adapter1.setLoadMore(new SimpleItem(R.layout.layout_complete));
+                    loadMore = false;
+                }
+                if (!loadMore) {
+                    Toast.makeText(getContext(), "已经到底了", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 for (int i = 0; i < 10; i++) {
-                    list.add(new BaseItem<String>("这是第" + i + "条新数据", R.layout.sample_fir_item) {
+                    list2.add(new BaseItem<String>("这是第" + i + "条新数据", R.layout.sample_fir_item) {
 
                         @Override
                         public void onBindViewHolder(BaseViewHolder holder, final int position) {
@@ -147,7 +157,13 @@ public class SingleFragment extends Fragment {
                         }
                     });
                 }
-                adapter1.addData(list);
+                list.addAll(list2);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter1.addData(list);
+                    }
+                }, 4000);
             }
         });
 

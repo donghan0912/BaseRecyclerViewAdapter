@@ -14,7 +14,7 @@ import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
  * Created by Administrator on 2017/5/19.
  */
 
-public class BaseItem<T> implements Item {
+public abstract class BaseItem<T> implements Item {
     public T mData;
     public int mLayoutRes;
 
@@ -62,8 +62,4 @@ public class BaseItem<T> implements Item {
         return new BaseViewHolder(itemView);
     }
 
-    @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
-
-    }
 }

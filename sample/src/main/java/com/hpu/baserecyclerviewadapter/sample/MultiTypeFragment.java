@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hpu.baserecyclerviewadapter.adapter.BaseMultiTypeAdapter;
+import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
 import com.hpu.baserecyclerviewadapter.item.BaseItem;
 import com.hpu.baserecyclerviewadapter.item.OnBindView;
+import com.hpu.baserecyclerviewadapter.item.SimpleItem;
 import com.hpu.baserecyclerviewadapter.sample.multi.FirstItem;
 import com.hpu.baserecyclerviewadapter.sample.multi.SecondItem;
 import com.hpu.baserecyclerviewadapter.sample.multi.ThirdItem;
@@ -29,6 +32,7 @@ import java.util.List;
 
 public class MultiTypeFragment extends Fragment {
     private List<BaseItem> list;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,50 +70,41 @@ public class MultiTypeFragment extends Fragment {
             }
         });
 
+
+        baseMultiTypeAdapter.setDisplayLayout(new SimpleItem(R.layout.layout_loading) {
+            @Override
+            public void onBindViewHolder(BaseViewHolder holder, int position) {
+                TextView t = holder.findViewById(R.id.tv_message);
+                Toast.makeText(getContext(), t.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                baseMultiTypeAdapter.setDisplayLayout(R.layout.layout_loading);
-                baseMultiTypeAdapter.getDisplayView(new OnBindView() {
-                    @Override
-                    public void onBindView(View view) {
-                        TextView t = (TextView) view.findViewById(R.id.tv_message);
-                        Toast.makeText(getContext(),  t.getText().toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                baseMultiTypeAdapter.setData(list);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        baseMultiTypeAdapter.setData(list);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                baseMultiTypeAdapter.setDisplayLayout(R.layout.layout_empty);
-                                baseMultiTypeAdapter.getDisplayView(new OnBindView() {
-                                    @Override
-                                    public void onBindView(View view) {
-                                        TextView t = (TextView) view.findViewById(R.id.tv_message);
-                                        Toast.makeText(getContext(),  t.getText().toString(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        List list = new ArrayList<>();
-                                        for (int i = 0; i < 5; i++) {
-                                            list.add(new FirstItem("第" + i + "条数据"));
-                                            list.add(new SecondItem("第" + i + "条数据"));
-                                            list.add(new ThirdItem(R.drawable.meinv));
+                        FragmentActivity activity = getActivity();
+                        if (activity != null) {
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    baseMultiTypeAdapter.setDisplayLayout(new SimpleItem(R.layout.layout_empty) {
+                                        @Override
+                                        public void onBindViewHolder(BaseViewHolder holder, int position) {
+                                            TextView t = holder.findViewById(R.id.tv_message);
+                                            t.setText("sssssssssssssssssssss");
+                                            Toast.makeText(getContext(), t.getText().toString(), Toast.LENGTH_SHORT).show();
                                         }
-                                        baseMultiTypeAdapter.setData(list);
-                                    }
-                                }, 4000);
-                            }
-                        }, 4000);
+                                    });
+                                }
+                            });
+                        }
                     }
                 }, 4000);
-
-
-            }}, 4000);
+            }
+        }, 4000);
     }
 }

@@ -1,15 +1,12 @@
 package com.hpu.baserecyclerviewadapter.adapter;
 
-import android.content.res.Resources;
-import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
-import com.hpu.baserecyclerviewadapter.item.DisplayItem;
 import com.hpu.baserecyclerviewadapter.item.BaseItem;
-import com.hpu.baserecyclerviewadapter.item.OnBindView;
+import com.hpu.baserecyclerviewadapter.item.SimpleItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +20,8 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     private List<BaseItem<T>> mData;
     private List<BaseItem> mHeaders = new ArrayList<>();
     private List<BaseItem> mFooters = new ArrayList<>();
-    private List<DisplayItem> mDisplays = new ArrayList<>();
-    private List<DisplayItem> mLoadMore = new ArrayList<>();
+    private List<SimpleItem> mDisplays = new ArrayList<>();
+    private List<SimpleItem> mLoadMore = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
 
@@ -69,12 +66,12 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
                 return item.onCreateViewHolder(parent, viewType);
             }
         }
-        for (DisplayItem item : mDisplays) {
+        for (SimpleItem item : mDisplays) {
             if (viewType == item.getItemViewType()) {
                 return item.onCreateViewHolder(parent, viewType);
             }
         }
-        for (DisplayItem item : mLoadMore) {
+        for (SimpleItem item : mLoadMore) {
             if (viewType == item.getItemViewType()) {
                 return item.onCreateViewHolder(parent, viewType);
             }
@@ -117,7 +114,7 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         } else if (mDisplays.size() > 0 && displayPosition >= 0) {
             mDisplays.get(displayPosition).onBindViewHolder(holder, displayPosition);
         } else if (mLoadMore.size() > 0 && loadMorePosition >= 0) {
-            mLoadMore.get(loadMorePosition);
+            mLoadMore.get(loadMorePosition).onBindViewHolder(holder, loadMorePosition);
         } else {
             int dataPosition = position - mHeaders.size();
             mData.get(dataPosition).onBindViewHolder(holder, dataPosition);
@@ -143,32 +140,14 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         return mData.get(position - mHeaders.size()).getItemViewType();
     }
 
-    /**
-     * 设置要展示的布局
-     *
-     * @param resource
-     */
-    public void setDisplayLayout(@LayoutRes int resource) {
-        if (resource <= 0) {
-            throw new Resources.NotFoundException("Resource ID \"" + resource + "\" is not valid, ");
+    public void setDisplayLayout(SimpleItem simpleItem) {
+        if (simpleItem == null) {
+            throw new NullPointerException("the parameter simpleItem can't be null");
         }
         mDisplays.clear();
         mData.clear();
-        mDisplays.add(new DisplayItem(resource));
-        notifyItemChanged(mHeaders.size());
-    }
-
-    /**
-     * 获取当前显示布局view
-     *
-     * @param bindView
-     */
-    public void getDisplayView(OnBindView bindView) {
-        if (mDisplays.size() == 0) {
-            throw new IllegalStateException("you should call setDisplayLayout() method before call getDisplayView() method ");
-        }
-        DisplayItem item = mDisplays.get(0);
-        item.onBindView(bindView);
+        mDisplays.add(simpleItem);
+        notifyDataSetChanged();
     }
 
     public void addHeader(BaseItem item) {
@@ -187,12 +166,18 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         notifyItemInserted(mData.size() + mHeaders.size());
     }
 
-    public void setLoadMore(@LayoutRes int resource) {
-        if (resource <= 0) {
-            throw new Resources.NotFoundException("Resource ID \"" + resource + "\" is not valid, ");
+    public void setLoadMore(SimpleItem simpleItem) {
+        if (simpleItem == null) {
+            throw new NullPointerException("the parameter simpleItem can't be null");
         }
-        mLoadMore.add(new DisplayItem(resource));
+        mLoadMore.clear();
+        mLoadMore.add(simpleItem);
         notifyItemInserted(mHeaders.size() + mData.size());
+    }
+
+    public void removeLoadMore() {
+        mLoadMore.clear();
+        notifyItemRemoved(mHeaders.size() + mData.size());
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
