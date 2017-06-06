@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.hpu.baserecyclerviewadapter.adapter.BaseMultiTypeAdapter;
 import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
 import com.hpu.baserecyclerviewadapter.item.BaseItem;
-import com.hpu.baserecyclerviewadapter.item.OnBindView;
 import com.hpu.baserecyclerviewadapter.item.SimpleItem;
 import com.hpu.baserecyclerviewadapter.sample.multi.FirstItem;
 import com.hpu.baserecyclerviewadapter.sample.multi.SecondItem;
@@ -71,7 +70,7 @@ public class MultiTypeFragment extends Fragment {
         });
 
 
-        baseMultiTypeAdapter.setDisplayLayout(new SimpleItem(R.layout.layout_loading) {
+        baseMultiTypeAdapter.setStatusItem(new SimpleItem(R.layout.layout_loading) {
             @Override
             public void onBindViewHolder(BaseViewHolder holder, int position) {
                 TextView t = holder.findViewById(R.id.tv_message);
@@ -91,7 +90,7 @@ public class MultiTypeFragment extends Fragment {
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    baseMultiTypeAdapter.setDisplayLayout(new SimpleItem(R.layout.layout_empty) {
+                                    baseMultiTypeAdapter.setStatusItem(new SimpleItem(R.layout.layout_empty) {
                                         @Override
                                         public void onBindViewHolder(BaseViewHolder holder, int position) {
                                             TextView t = holder.findViewById(R.id.tv_message);

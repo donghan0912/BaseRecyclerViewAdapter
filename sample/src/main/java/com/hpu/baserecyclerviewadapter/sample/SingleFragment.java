@@ -128,7 +128,8 @@ public class SingleFragment extends Fragment {
 //            }
 //        }, 4000);
 
-        adapter1.setLoadMore(new SimpleItem(R.layout.layout_loadmore));
+        adapter1.setExtraItem(new SimpleItem(R.layout.layout_loadmore));
+
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
             @Override
             public void onLoadMore() {
@@ -139,13 +140,13 @@ public class SingleFragment extends Fragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        adapter1.setLoadMore(new SimpleItem(R.layout.layout_loadmore_error) {
+                        adapter1.setExtraItem(new SimpleItem(R.layout.layout_loadmore_error) {
                             @Override
                             public void onBindViewHolder(BaseViewHolder holder, int position) {
                                 holder.setOnClickListener(R.id.loadmore_error, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        adapter1.setLoadMore(new SimpleItem(R.layout.layout_loadmore));
+                                        adapter1.setExtraItem(new SimpleItem(R.layout.layout_loadmore));
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
@@ -167,8 +168,8 @@ public class SingleFragment extends Fragment {
                                                 }
                                                 list.addAll(list2);
                                                 if (list.size() >= 20) {
-//                            adapter1.removeLoadMore();
-                                                    adapter1.setLoadMore(new SimpleItem(R.layout.layout_complete));
+//                                                    adapter1.removeExtraItem();
+                                                    adapter1.setExtraItem(new SimpleItem(R.layout.layout_complete));
                                                     loadMore = false;
                                                 }
                                                 adapter1.addData(list);

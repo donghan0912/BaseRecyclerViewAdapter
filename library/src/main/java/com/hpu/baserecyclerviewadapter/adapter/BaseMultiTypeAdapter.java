@@ -134,19 +134,6 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         return mData.get(position - mHeaders.size()).getItemViewType();
     }
 
-    public void setDisplayLayout(SimpleItem simpleItem) {
-        // TODO 重构display 和 data 顺序
-
-        if (simpleItem == null) {
-            throw new NullPointerException("the parameter simpleItem can't be null");
-        }
-        int count = mData.size();
-        mData.clear();
-        notifyItemRangeRemoved(mHeaders.size(), count);
-        mData.add(simpleItem);
-        notifyItemInserted(mHeaders.size());
-    }
-
     public void addHeader(BaseItem item) {
         if (item == null) {
             throw new NullPointerException("item can't be null");
@@ -163,7 +150,19 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         notifyItemInserted(mData.size() + mHeaders.size());
     }
 
-    public void setLoadMore(SimpleItem simpleItem) {
+    public void setStatusItem(SimpleItem simpleItem) {
+        if (simpleItem == null) {
+            throw new NullPointerException("the parameter simpleItem can't be null");
+        }
+        removeExtraItem();
+        int count = mData.size();
+        mData.clear();
+        notifyItemRangeRemoved(mHeaders.size(), count);
+        mData.add(simpleItem);
+        notifyItemInserted(mHeaders.size());
+    }
+
+    public void setExtraItem(SimpleItem simpleItem) {
         if (simpleItem == null) {
             throw new NullPointerException("the parameter simpleItem can't be null");
         }
@@ -173,7 +172,7 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         notifyItemInserted(mHeaders.size() + mData.size());
     }
 
-    public void removeLoadMore() {
+    public void removeExtraItem() {
         mLoadMore.clear();
         notifyItemRemoved(mHeaders.size() + mData.size());
     }
