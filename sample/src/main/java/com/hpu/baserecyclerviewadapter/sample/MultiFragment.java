@@ -9,8 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hpu.baserecyclerviewadapter.adapter.BaseRecyclerViewAdapter;
 import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
 
@@ -65,23 +67,21 @@ public class MultiFragment extends Fragment {
             @Override
             public void onBindRecyclerViewHolder(BaseViewHolder holder, final int position, int itemViewType) {
                 if (itemViewType == TYPE_FIR) {
-                    holder.setText(R.id.content, (String) getItem(position))
-                            .setText(R.id.content2, getItem(position) + "sss");
-                    holder.setOnClickListener(R.id.content, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(getContext(), position + "/111", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    holder.setOnClickListener(R.id.content2, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(getContext(), position + "/222", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+//                    holder.setOnClickListener(R.id.content, new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Toast.makeText(getContext(), position + "/111", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                    holder.setOnClickListener(R.id.content2, new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Toast.makeText(getContext(), position + "/222", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                 } else {
-                    holder.setText(R.id.content3, (String) getItem(position))
-                            .setText(R.id.content4, getItem(position) + "sss");
+                    ImageView img = holder.findViewById(R.id.avatar);
+                    Glide.with(img.getContext()).load(R.drawable.avatar).into(img);
                 }
             }
 

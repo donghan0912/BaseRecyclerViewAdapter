@@ -150,6 +150,10 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         notifyItemInserted(mData.size() + mHeaders.size());
     }
 
+    /**
+     * 设置空页面、加载中、网络错误等类型布局
+     * @param simpleItem
+     */
     public void setStatusItem(SimpleItem simpleItem) {
         if (simpleItem == null) {
             throw new NullPointerException("the parameter simpleItem can't be null");
@@ -162,6 +166,10 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         notifyItemInserted(mHeaders.size());
     }
 
+    /**
+     * 设置加载更多、加载更多失败等类型布局
+     * @param simpleItem
+     */
     public void setExtraItem(SimpleItem simpleItem) {
         if (simpleItem == null) {
             throw new NullPointerException("the parameter simpleItem can't be null");

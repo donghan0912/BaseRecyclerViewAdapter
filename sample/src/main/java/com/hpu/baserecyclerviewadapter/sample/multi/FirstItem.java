@@ -27,12 +27,12 @@ public class FirstItem extends BaseItem<String> {
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, final int position) {
-        holder.setText(R.id.content, mData);
-        holder.setOnClickListener(R.id.content, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), position + "/普通", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        holder.setText(R.id.content, mData);
+//        holder.setOnClickListener(R.id.content, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(v.getContext(), position + "/普通", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }

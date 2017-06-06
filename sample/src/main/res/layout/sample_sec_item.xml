@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/colorPrimary"
-              android:orientation="horizontal">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"/>
 
     <TextView
-        android:textColor="#fff"
-        android:id="@+id/content3"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:id="@+id/actor"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="sdf"
-        android:textSize="20sp"/>
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@id/avatar"
+        android:paddingLeft="10dp"
+        android:text="白落衡"
+        android:textSize="16sp"/>
 
     <TextView
-        android:textColor="#fff"
-        android:id="@+id/content4"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_marginTop="6dp"
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="sdf"
-        android:textSize="20sp"/>
-</LinearLayout>
+        android:layout_below="@id/actor"
+        android:layout_toRightOf="@id/avatar"
+        android:paddingLeft="10dp"
+        android:text="吴倩 1992.9.26"
+        android:textSize="14sp"/>
+
+</RelativeLayout>

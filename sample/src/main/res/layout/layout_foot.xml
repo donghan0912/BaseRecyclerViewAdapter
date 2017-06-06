@@ -3,8 +3,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/head"
+    <TextView
+        android:gravity="center"
+        android:text="我是尾部"
+        android:id="@+id/foot"
         android:layout_width="match_parent"
         android:layout_height="160dp"/>
 

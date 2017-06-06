@@ -45,10 +45,22 @@ public class MultiTypeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             list.add(new FirstItem("第" + i + "条数据"));
             list.add(new SecondItem("第" + i + "条数据"));
-            list.add(new ThirdItem(R.drawable.meinv));
+            if (i == 0) {
+                list.add(new ThirdItem(R.drawable.luoluo_1));
+            } else if (i == 1) {
+                list.add(new ThirdItem(R.drawable.luoluo_2));
+            } else if (i == 2) {
+                list.add(new ThirdItem(R.drawable.luoluo_3));
+            } else if (i == 3) {
+                list.add(new ThirdItem(R.drawable.luoluo_4));
+            } else if (i == 4) {
+                list.add(new ThirdItem(R.drawable.luoluo_5));
+            } else if (i == 5) {
+                list.add(new ThirdItem(R.drawable.luoluo_6));
+            }
         }
         final BaseMultiTypeAdapter baseMultiTypeAdapter = new BaseMultiTypeAdapter();
         recyclerView.setAdapter(baseMultiTypeAdapter);

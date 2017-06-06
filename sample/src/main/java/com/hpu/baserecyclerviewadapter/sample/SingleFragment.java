@@ -10,8 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hpu.baserecyclerviewadapter.EndlessRecyclerOnScrollListener;
 import com.hpu.baserecyclerviewadapter.adapter.BaseMultiTypeAdapter;
 import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
@@ -42,11 +44,9 @@ public class SingleFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
-        final List<BaseItem<String>> aaa = new ArrayList();
-        for (int i = 0; i < 20; i++) {
-//            aaa.add(new FirstItem("第" + i + "数据aaa"));
-            final String s = "第" + i + "数据aaagggggggggggg";
-            aaa.add(new BaseItem<String>("第" + i + "数据sssssssss") {
+        final List<BaseItem<String>> testData = new ArrayList();
+        for (int i = 1; i < 20; i++) {
+            testData.add(new BaseItem<String>("择天记 第" + i + "集") {
 
                 @Override
                 public int getLayoutResource() {
@@ -55,124 +55,93 @@ public class SingleFragment extends Fragment {
 
                 @Override
                 public void onBindViewHolder(BaseViewHolder holder, final int position) {
-                    holder.setText(R.id.content, mData);
-                    holder.setOnClickListener(R.id.content, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(getContext(), position + "/1234", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    holder.setText(R.id.title, mData);
                 }
             });
         }
-        final BaseMultiTypeAdapter adapter1 = new BaseMultiTypeAdapter();
-        recyclerView.setAdapter(adapter1);
-        adapter1.setData(aaa);
-//        adapter1.setDisplayLayout(R.layout.layout_loading);
-//        adapter1.setOnItemClickListener(new BaseMultiTypeAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        adapter1.addHeader(new BaseItem() {
-//            @Override
-//            public int getLayoutResource() {
-//                return R.layout.layout_head;
-//            }
-//
-//            @Override
-//            public void onBindViewHolder(BaseViewHolder holder, final int position) {
-//                holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Toast.makeText(getContext(), position + "我是头，哈哈哈", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                holder.setOnClickListener(R.id.head, new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Toast.makeText(getContext(), position + "我是头的子View", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//        });
-//        adapter1.addFooter(new BaseItem() {
-//            @Override
-//            public int getLayoutResource() {
-//                return R.layout.layout_loadmore;
-//            }
-//
-//            @Override
-//            public void onBindViewHolder(BaseViewHolder holder, final int position) {
-//                holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Toast.makeText(getContext(), position + "尾巴，哈哈哈", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//        });
+        final BaseMultiTypeAdapter adapter = new BaseMultiTypeAdapter();
+        recyclerView.setAdapter(adapter);
+        
+        adapter.setStatusItem(new SimpleItem(R.layout.layout_loading) {
+            @Override
+            public void onBindViewHolder(BaseViewHolder holder, int position) {
+                // TODO 宽高设置
+                ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
+                params.height = 900;
+                holder.itemView.setLayoutParams(params);
+            }
+        });
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapter.setData(testData);
+                adapter.setExtraItem(new SimpleItem(R.layout.layout_loadmore));
+            }
+        }, 4000);
+        adapter.setOnItemClickListener(new BaseMultiTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
+            }
+        });
+        adapter.addHeader(new BaseItem() {
+            @Override
+            public int getLayoutResource() {
+                return R.layout.layout_head;
+            }
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                adapter1.setDisplayLayout(R.layout.layout_error);
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        adapter1.setData(aaa);
-//                    }
-//                }, 4000);
-//
-//            }
-//        }, 4000);
-
-        adapter1.setExtraItem(new SimpleItem(R.layout.layout_loadmore));
+            @Override
+            public void onBindViewHolder(BaseViewHolder holder, final int position) {
+                ImageView img = holder.findViewById(R.id.head);
+                Glide.with(img.getContext()).load(R.drawable.meinv).into(img);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getContext(), position + "我是头，哈哈哈", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                holder.setOnClickListener(R.id.head, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getContext(), position + "我是头的子View", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
             @Override
             public void onLoadMore() {
                 if (!loadMore) {
-                    Toast.makeText(getContext(), "已经到底了", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        adapter1.setExtraItem(new SimpleItem(R.layout.layout_loadmore_error) {
+                        adapter.setExtraItem(new SimpleItem(R.layout.layout_loadmore_error) {
                             @Override
                             public void onBindViewHolder(BaseViewHolder holder, int position) {
                                 holder.setOnClickListener(R.id.loadmore_error, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        adapter1.setExtraItem(new SimpleItem(R.layout.layout_loadmore));
+                                        adapter.setExtraItem(new SimpleItem(R.layout.layout_loadmore));
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
                                                 List<BaseItem> list2 = new ArrayList<BaseItem>();
-                                                for (int i = 0; i < 10; i++) {
-                                                    list2.add(new BaseItem<String>("这是第" + i + "条新数据", R.layout.sample_fir_item) {
+                                                for (int i = 20; i < 40; i++) {
+                                                    list2.add(new BaseItem<String>("择天记 第" + i + "集", R.layout.sample_fir_item) {
 
                                                         @Override
                                                         public void onBindViewHolder(BaseViewHolder holder, final int position) {
-                                                            holder.setText(R.id.content, mData);
-                                                            holder.setOnClickListener(R.id.content, new View.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(View v) {
-                                                                    Toast.makeText(getContext(), position + "/1234", Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            });
+                                                            holder.setText(R.id.title, mData);
                                                         }
                                                     });
                                                 }
                                                 list.addAll(list2);
-                                                if (list.size() >= 20) {
-//                                                    adapter1.removeExtraItem();
-                                                    adapter1.setExtraItem(new SimpleItem(R.layout.layout_complete));
-                                                    loadMore = false;
-                                                }
-                                                adapter1.addData(list);
+                                                adapter.setExtraItem(new SimpleItem(R.layout.layout_loadmore_complete));
+                                                loadMore = false;
+                                                adapter.addData(list);
                                             }
                                         }, 4000);
                                     }
