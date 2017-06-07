@@ -60,6 +60,18 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
+        <RadioButton
+            android:id="@+id/stag"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/text_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="stag"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
     </RadioGroup>
 
     <FrameLayout

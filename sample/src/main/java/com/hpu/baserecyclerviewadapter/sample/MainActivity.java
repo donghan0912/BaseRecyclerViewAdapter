@@ -46,6 +46,15 @@ public class MainActivity extends AppCompatActivity {
                         .commit();
             }
         });
+        findViewById(R.id.stag).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StaggeredFragment fragment = new StaggeredFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_layout, fragment)
+                        .commit();
+            }
+        });
         SingleFragment singleFragment = new SingleFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout, singleFragment)
