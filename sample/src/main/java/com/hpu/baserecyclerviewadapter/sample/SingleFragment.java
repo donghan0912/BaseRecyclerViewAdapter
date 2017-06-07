@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,7 +41,7 @@ public class SingleFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+//        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
         final List<BaseItem<String>> testData = new ArrayList();
         for (int i = 1; i < 20; i++) {
@@ -61,29 +60,6 @@ public class SingleFragment extends Fragment {
         }
         final BaseMultiTypeAdapter adapter = new BaseMultiTypeAdapter();
         recyclerView.setAdapter(adapter);
-        
-        adapter.setStatusItem(new SimpleItem(R.layout.layout_loading) {
-            @Override
-            public void onBindViewHolder(BaseViewHolder holder, int position) {
-                // TODO 宽高设置
-                ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
-                params.height = 900;
-                holder.itemView.setLayoutParams(params);
-            }
-        });
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                adapter.setData(testData);
-                adapter.setExtraItem(new SimpleItem(R.layout.layout_loadmore));
-            }
-        }, 4000);
-        adapter.setOnItemClickListener(new BaseMultiTypeAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
-            }
-        });
         adapter.addHeader(new BaseItem() {
             @Override
             public int getLayoutResource() {
@@ -91,7 +67,7 @@ public class SingleFragment extends Fragment {
             }
 
             @Override
-            public void onBindViewHolder(BaseViewHolder holder, final int position) {
+            public void onBindViewHolder(final BaseViewHolder holder, final int position) {
                 ImageView img = holder.findViewById(R.id.head);
                 Glide.with(img.getContext()).load(R.drawable.meinv).into(img);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +84,20 @@ public class SingleFragment extends Fragment {
                 });
             }
         });
+        adapter.setStatusItem(new SimpleItem(R.layout.layout_loading));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapter.setData(testData);
+                adapter.setExtraItem(new SimpleItem(R.layout.layout_loadmore));
+            }
+        }, 4000);
+        adapter.setOnItemClickListener(new BaseMultiTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
             @Override
@@ -121,7 +111,7 @@ public class SingleFragment extends Fragment {
                         adapter.setExtraItem(new SimpleItem(R.layout.layout_loadmore_error) {
                             @Override
                             public void onBindViewHolder(BaseViewHolder holder, int position) {
-                                holder.setOnClickListener(R.id.loadmore_error, new View.OnClickListener() {
+                                holder.itemView.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         adapter.setExtraItem(new SimpleItem(R.layout.layout_loadmore));

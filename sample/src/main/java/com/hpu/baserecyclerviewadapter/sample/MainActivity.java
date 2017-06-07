@@ -37,6 +37,15 @@ public class MainActivity extends AppCompatActivity {
                         .commit();
             }
         });
+        findViewById(R.id.glid).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlidFragment fragment = new GlidFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_layout, fragment)
+                        .commit();
+            }
+        });
         SingleFragment singleFragment = new SingleFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout, singleFragment)
