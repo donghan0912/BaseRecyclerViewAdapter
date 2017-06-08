@@ -35,7 +35,7 @@ public class MultiTypeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_multi, null);
+        return inflater.inflate(R.layout.fragment, null);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class MultiTypeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+//        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         list = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             list.add(new FirstItem("第" + i + "条数据"));

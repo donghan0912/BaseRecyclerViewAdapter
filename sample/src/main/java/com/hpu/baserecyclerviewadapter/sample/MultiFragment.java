@@ -22,7 +22,7 @@ public class MultiFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_multi, null);
+        return inflater.inflate(R.layout.fragment, null);
     }
 
     @Override

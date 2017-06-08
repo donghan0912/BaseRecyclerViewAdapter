@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="160dp">
+
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:lineSpacingExtra="10dp"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        android:text="白\n落\n衡"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:src="@drawable/luoluo_6"
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"/>
+
+    <LinearLayout
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="8dp"
+            android:textSize="18sp"
+            android:text="吴\n倩"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:textSize="14sp"
+            android:text="饰"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -15,13 +15,14 @@ import com.hpu.baserecyclerviewadapter.BaseRecyclerViewAdapter;
 import com.hpu.baserecyclerviewadapter.BaseViewHolder;
 import com.hpu.baserecyclerviewadapter.BaseItem;
 import com.hpu.baserecyclerviewadapter.SimpleItem;
+import com.hpu.baserecyclerviewadapter.sample.bean.WQ;
 import com.hpu.baserecyclerviewadapter.sample.multi.FourthItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lenovo on 2017/5/17.
+ * Created by lenovo on 2017/5/17
  */
 
 public class StaggeredFragment extends Fragment {
@@ -31,7 +32,7 @@ public class StaggeredFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_multi, null);
+        return inflater.inflate(R.layout.fragment, null);
     }
 
     @Override
@@ -41,11 +42,12 @@ public class StaggeredFragment extends Fragment {
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         for (int i = 0; i < 20; i++) {
-            list.add(new FourthItem(getRandomHeight(), R.layout.layout_staggered));
+            WQ wq = new WQ(getRandomHeight(), getDrawable());
+            list.add(new FourthItem(wq));
         }
         final BaseRecyclerViewAdapter adapter = new BaseRecyclerViewAdapter(list);
         recyclerView.setAdapter(adapter);
-        adapter.addHeader(new SimpleItem(R.layout.layout_head) {
+        adapter.addHeader(new SimpleItem(R.layout.layout_staggered_head) {
             @Override
             public void onBindViewHolder(BaseViewHolder holder, int position) {
                 StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
@@ -75,7 +77,8 @@ public class StaggeredFragment extends Fragment {
                             public void run() {
                                 List<BaseItem> list2 = new ArrayList<BaseItem>();
                                 for (int i = 0; i < 20; i++) {
-                                    list2.add(new FourthItem(getRandomHeight(), R.layout.layout_staggered));
+                                    WQ wq = new WQ(getRandomHeight(), getDrawable());
+                                    list2.add(new FourthItem(wq));
                                 }
                                 list.addAll(list2);
                                 if (list.size() > 40) {
@@ -90,10 +93,10 @@ public class StaggeredFragment extends Fragment {
                                 }
                                 adapter.addData(list2);
                             }
-                        }, 4000);
+                        }, 3000);
 
                     }
-                }, 4000);
+                }, 3000);
             }
         });
 
@@ -102,5 +105,27 @@ public class StaggeredFragment extends Fragment {
     private int getRandomHeight() {
         int height = (int) (400 + Math.random() * 100);
         return height;
+    }
+    
+    private int getDrawable() {
+        int p = (int) (Math.random() * 7);
+        if (p % 7 == 0) {
+            return R.drawable.wq_1;
+        } else if (p % 7 == 1) {
+            return R.drawable.wq_2;
+        }else if (p % 7 == 2) {
+            return R.drawable.wq_3;
+        }else if (p % 7 == 3) {
+            return R.drawable.wq_4;
+        }else if (p % 7 == 4) {
+            return R.drawable.wq_5;
+        }else if (p % 7 == 5) {
+            return R.drawable.wq_6;
+        }else if (p % 7 == 6) {
+            return R.drawable.wq_7;
+        }else if (p % 7 == 7) {
+            return R.drawable.wq_8;
+        }
+        return R.drawable.luoluo_6;
     }
 }

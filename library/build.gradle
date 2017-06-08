@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 25
@@ -30,13 +29,4 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:25.3.1'
-}
-
-publish {
-    userOrg = 'donghan0912' //在https://bintray.com上注册的用户名
-    groupId = 'com.hpu' //jCenter上的路径
-    artifactId = 'base-adapter' //要上传的library名称（和二、4中的package相同）
-    publishVersion = '0.0.1' //library的版本号
-    desc = 'a library based on recyclerview.adapter' //library的简单描述
-    website = 'https://github.com/donghan0912/BaseRecyclerViewAdapter' //library的开源地址，例如在github上的地址
 }

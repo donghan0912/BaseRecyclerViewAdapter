@@ -28,6 +28,7 @@
             android:textSize="14sp"
             android:textColor="@color/primary"
             android:text="白落衡\n吴倩 饰"
+            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
