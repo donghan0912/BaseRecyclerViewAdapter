@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--
+        android:orderInCategory作用：item排序，int值，值越小越靠前
+        app:showAsAction作用：是否显示在toolbar上，常用取值always、never
+        android:icon：item设置icon后，title就不显示了
+    -->
+    <item
+        android:id="@+id/single"
+        android:orderInCategory="1"
+        android:title="single"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/multi"
+        android:orderInCategory="2"
+        android:title="multi"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/glid"
+        android:orderInCategory="3"
+        android:title="glid"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/staggered"
+        android:orderInCategory="3"
+        android:title="staggered"
+        app:showAsAction="never"/>
+</menu>

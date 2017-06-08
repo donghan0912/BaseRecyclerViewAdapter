@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lenovo on 2017/5/17.
+ * Created by lenovo on 2017/5/17
  */
 
 public class SingleFragment extends Fragment {
