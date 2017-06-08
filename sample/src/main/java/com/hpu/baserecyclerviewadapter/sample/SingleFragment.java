@@ -14,10 +14,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hpu.baserecyclerviewadapter.EndlessRecyclerOnScrollListener;
-import com.hpu.baserecyclerviewadapter.adapter.BaseMultiTypeAdapter;
-import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
-import com.hpu.baserecyclerviewadapter.item.BaseItem;
-import com.hpu.baserecyclerviewadapter.item.SimpleItem;
+import com.hpu.baserecyclerviewadapter.BaseMultiTypeAdapter;
+import com.hpu.baserecyclerviewadapter.BaseViewHolder;
+import com.hpu.baserecyclerviewadapter.BaseItem;
+import com.hpu.baserecyclerviewadapter.SimpleItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class SingleFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
-        final List<BaseItem<String>> testData = new ArrayList();
+        final List<BaseItem> testData = new ArrayList();
         for (int i = 1; i < 20; i++) {
             testData.add(new BaseItem<String>("择天记 第" + i + "集") {
 

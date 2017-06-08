@@ -1,13 +1,11 @@
 package com.hpu.baserecyclerviewadapter.sample.multi;
 
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
-import com.hpu.baserecyclerviewadapter.item.BaseItem;
+import com.hpu.baserecyclerviewadapter.BaseViewHolder;
+import com.hpu.baserecyclerviewadapter.BaseItem;
 import com.hpu.baserecyclerviewadapter.sample.R;
 
 /**

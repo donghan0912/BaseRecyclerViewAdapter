@@ -9,12 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.hpu.baserecyclerviewadapter.adapter.BaseRecyclerViewAdapter;
-import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,54 +35,6 @@ public class MultiFragment extends Fragment {
         for (int i = 0; i < 20; i++) {
             list.add("第" + i + "数据");
         }
-        BaseRecyclerViewAdapter adapter = new BaseRecyclerViewAdapter() {
-
-            private static final int TYPE_FIR = 1;
-            private static final int TYPE_SEC = 0;
-
-            @Override
-            public int getLayoutId(int viewType) {
-                if (viewType == TYPE_FIR) {
-                    return R.layout.sample_fir_item;
-                } else {
-                    return R.layout.sample_sec_item;
-                }
-            }
-
-            @Override
-            public int getItemViewType(int position) {
-                if (position % 2 == 0) {
-                    return TYPE_FIR;
-                } else {
-                    return TYPE_SEC;
-                }
-            }
-
-            @Override
-            public void onBindRecyclerViewHolder(BaseViewHolder holder, final int position, int itemViewType) {
-                if (itemViewType == TYPE_FIR) {
-//                    holder.setOnClickListener(R.id.content, new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Toast.makeText(getContext(), position + "/111", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                    holder.setOnClickListener(R.id.content2, new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Toast.makeText(getContext(), position + "/222", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-                } else {
-                    ImageView img = holder.findViewById(R.id.avatar);
-                    Glide.with(img.getContext()).load(R.drawable.avatar).into(img);
-                }
-            }
-
-        };
-        recyclerView.setAdapter(adapter);
-        adapter.setData(list);
-
 
     }
 }

@@ -3,21 +3,15 @@ package com.hpu.baserecyclerviewadapter.sample;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.hpu.baserecyclerviewadapter.adapter.BaseMultiTypeAdapter;
-import com.hpu.baserecyclerviewadapter.adapter.BaseRecyclerViewAdapter;
-import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
-import com.hpu.baserecyclerviewadapter.item.BaseItem;
-import com.hpu.baserecyclerviewadapter.item.SimpleItem;
+import com.hpu.baserecyclerviewadapter.BaseMultiTypeAdapter;
+import com.hpu.baserecyclerviewadapter.BaseItem;
+import com.hpu.baserecyclerviewadapter.SimpleItem;
 import com.hpu.baserecyclerviewadapter.sample.multi.FirstItem;
 
 import java.util.ArrayList;

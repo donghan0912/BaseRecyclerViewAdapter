@@ -1,9 +1,9 @@
-package com.hpu.baserecyclerviewadapter.item;
+package com.hpu.baserecyclerviewadapter;
 
 import android.support.annotation.LayoutRes;
 import android.view.ViewGroup;
 
-import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
+import com.hpu.baserecyclerviewadapter.BaseViewHolder;
 
 
 /**

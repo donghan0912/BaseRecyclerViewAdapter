@@ -1,4 +1,4 @@
-package com.hpu.baserecyclerviewadapter.holder;
+package com.hpu.baserecyclerviewadapter;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;

@@ -1,14 +1,10 @@
 package com.hpu.baserecyclerviewadapter.sample.multi;
 
 import android.support.annotation.NonNull;
-import android.view.View;
-import android.widget.Toast;
 
-import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
-import com.hpu.baserecyclerviewadapter.item.BaseItem;
+import com.hpu.baserecyclerviewadapter.BaseViewHolder;
+import com.hpu.baserecyclerviewadapter.BaseItem;
 import com.hpu.baserecyclerviewadapter.sample.R;
-
-import static java.security.AccessController.getContext;
 
 /**
  * Created by Administrator on 2017/5/25.

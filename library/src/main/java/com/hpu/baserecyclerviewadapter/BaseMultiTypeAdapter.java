@@ -1,12 +1,8 @@
-package com.hpu.baserecyclerviewadapter.adapter;
+package com.hpu.baserecyclerviewadapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
-import com.hpu.baserecyclerviewadapter.item.BaseItem;
-import com.hpu.baserecyclerviewadapter.item.SimpleItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +11,9 @@ import java.util.List;
  * Created by Administrator on 2017/5/16.
  */
 
-public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
+public class BaseMultiTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
-    private List<BaseItem<T>> mData;
+    private List<BaseItem> mData;
     private List<BaseItem> mHeader = new ArrayList<>();
     private List<BaseItem> mFooter = new ArrayList<>();
     private List<SimpleItem> mExtra = new ArrayList<>();
@@ -28,14 +24,14 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         this(null);
     }
 
-    public BaseMultiTypeAdapter(List<BaseItem<T>> data) {
+    public BaseMultiTypeAdapter(List<BaseItem> data) {
         mData = new ArrayList<>();
         if (data != null) {
             mData.addAll(data);
         }
     }
 
-    public void setData(List<BaseItem<T>> data) {
+    public void setData(List<BaseItem> data) {
         if (mData.size() > 0) {
             mData.clear();
         }
@@ -48,11 +44,10 @@ public class BaseMultiTypeAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         notifyItemInserted(mHeader.size() + mData.size());
     }
 
-    public void addData(List<BaseItem<T>> data) {
+    public void addData(List<BaseItem> data) {
         int index = mData.size() + mHeader.size();
         mData.addAll(data);
         notifyItemRangeChanged(index, data.size());
-//        notifyItemRangeInserted(index, data.size());
     }
 
     @Override

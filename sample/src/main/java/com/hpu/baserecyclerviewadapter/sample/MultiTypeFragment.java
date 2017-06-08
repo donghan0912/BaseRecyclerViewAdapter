@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hpu.baserecyclerviewadapter.adapter.BaseMultiTypeAdapter;
-import com.hpu.baserecyclerviewadapter.holder.BaseViewHolder;
-import com.hpu.baserecyclerviewadapter.item.BaseItem;
-import com.hpu.baserecyclerviewadapter.item.SimpleItem;
+import com.hpu.baserecyclerviewadapter.BaseMultiTypeAdapter;
+import com.hpu.baserecyclerviewadapter.BaseViewHolder;
+import com.hpu.baserecyclerviewadapter.BaseItem;
+import com.hpu.baserecyclerviewadapter.SimpleItem;
 import com.hpu.baserecyclerviewadapter.sample.multi.FirstItem;
 import com.hpu.baserecyclerviewadapter.sample.multi.SecondItem;
 import com.hpu.baserecyclerviewadapter.sample.multi.ThirdItem;

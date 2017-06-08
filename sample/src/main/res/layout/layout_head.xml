@@ -4,6 +4,7 @@
                 android:layout_height="wrap_content">
 
     <ImageView
+        android:src="@drawable/luoluo_6"
         android:id="@+id/head"
         android:layout_width="match_parent"
         android:layout_height="160dp"/>
