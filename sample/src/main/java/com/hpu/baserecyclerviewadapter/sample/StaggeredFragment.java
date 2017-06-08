@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hpu.baserecyclerviewadapter.EndlessRecyclerOnScrollListener;
-import com.hpu.baserecyclerviewadapter.BaseMultiTypeAdapter;
+import com.hpu.baserecyclerviewadapter.BaseRecyclerViewAdapter;
 import com.hpu.baserecyclerviewadapter.BaseViewHolder;
 import com.hpu.baserecyclerviewadapter.BaseItem;
 import com.hpu.baserecyclerviewadapter.SimpleItem;
@@ -43,7 +43,7 @@ public class StaggeredFragment extends Fragment {
         for (int i = 0; i < 20; i++) {
             list.add(new FourthItem(getRandomHeight(), R.layout.layout_staggered));
         }
-        final BaseMultiTypeAdapter adapter = new BaseMultiTypeAdapter(list);
+        final BaseRecyclerViewAdapter adapter = new BaseRecyclerViewAdapter(list);
         recyclerView.setAdapter(adapter);
         adapter.addHeader(new SimpleItem(R.layout.layout_head) {
             @Override

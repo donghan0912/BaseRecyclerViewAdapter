@@ -7,11 +7,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Administrator on 2017/5/16.
- */
 
-public class BaseMultiTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private List<BaseItem> mData;
     private List<BaseItem> mHeader = new ArrayList<>();
@@ -20,11 +17,11 @@ public class BaseMultiTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
 
-    public BaseMultiTypeAdapter() {
+    public BaseRecyclerViewAdapter() {
         this(null);
     }
 
-    public BaseMultiTypeAdapter(List<BaseItem> data) {
+    public BaseRecyclerViewAdapter(List<BaseItem> data) {
         mData = new ArrayList<>();
         if (data != null) {
             mData.addAll(data);
@@ -39,6 +36,7 @@ public class BaseMultiTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyDataSetChanged();
     }
 
+    @SuppressWarnings("unused")
     public void addData(BaseItem data) {
         mData.add(data);
         notifyItemInserted(mHeader.size() + mData.size());
@@ -137,6 +135,7 @@ public class BaseMultiTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyItemInserted(0);
     }
 
+    @SuppressWarnings("unused")
     public void addFooter(BaseItem item) {
         if (item == null) {
             throw new NullPointerException("item can't be null");
@@ -148,7 +147,7 @@ public class BaseMultiTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     /**
      * 设置空页面、加载中、网络错误等类型布局
      *
-     * @param simpleItem
+     * @param simpleItem the status item
      */
     public void setStatusItem(SimpleItem simpleItem) {
         if (simpleItem == null) {
@@ -165,7 +164,7 @@ public class BaseMultiTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     /**
      * 设置加载更多、加载更多失败等类型布局
      *
-     * @param simpleItem
+     * @param simpleItem the extra item
      */
     public void setExtraItem(SimpleItem simpleItem) {
         if (simpleItem == null) {
@@ -183,32 +182,20 @@ public class BaseMultiTypeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public boolean isHeader(int position) {
-        if (mHeader.size() > 0 && position < mHeader.size()) {
-            return true;
-        }
-        return false;
+        return mHeader.size() > 0 && position < mHeader.size();
     }
 
     public boolean isFooter(int position) {
-        if (mFooter.size() > 0 && position >= mData.size() + mHeader.size() + mExtra.size()) {
-            return true;
-        }
-        return false;
+        return mFooter.size() > 0 && position >= mData.size() + mHeader.size() + mExtra.size();
     }
 
     public boolean isExtra(int position) {
-        if (mExtra.size() > 0 && position >= mData.size() + mHeader.size() && position < (mData.size() + mHeader.size() + mExtra.size())) {
-            return true;
-        }
-        return false;
+        return mExtra.size() > 0 && position >= mData.size() + mHeader.size() && position < (mData.size() + mHeader.size() + mExtra.size());
     }
 
     public boolean isStatus(int position) {
-        if (mData.size() == 1 && mData.get(0) instanceof SimpleItem && (position >= mHeader.size()
-                && position < mHeader.size() + mData.size())) {
-            return true;
-        }
-        return false;
+        return mData.size() == 1 && mData.get(0) instanceof SimpleItem && (position >= mHeader.size()
+                && position < mHeader.size() + mData.size());
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by Administrator on 2017/5/16.
+ * Created by Administrator on 2017/5/16
  */
 
 public class BaseViewHolder extends RecyclerView.ViewHolder {
@@ -29,12 +29,11 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
-     * return view by id
-     *
-     * @param id
-     * @param <T>
-     * @return
+     * @param id the view id
+     * @param <T> the view type
+     * @return view by id
      */
+    @SuppressWarnings("unchecked")
     public <T extends View> T findViewById(@IdRes int id) {
         View view = views.get(id);
         if (view == null) {
@@ -91,9 +90,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     /**
      *
-     * @param id
+     * @param id the id of view
      * @param visibility the value should be View.GONE, View.INVISIBLE or View.VISIBLE
-     * @return
+     * @return ViewHolder
      */
     public BaseViewHolder setVisibility(@IdRes int id, int visibility) {
         View view = findViewById(id);

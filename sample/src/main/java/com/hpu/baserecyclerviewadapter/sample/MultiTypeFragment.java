@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hpu.baserecyclerviewadapter.BaseMultiTypeAdapter;
+import com.hpu.baserecyclerviewadapter.BaseRecyclerViewAdapter;
 import com.hpu.baserecyclerviewadapter.BaseViewHolder;
 import com.hpu.baserecyclerviewadapter.BaseItem;
 import com.hpu.baserecyclerviewadapter.SimpleItem;
@@ -62,18 +62,18 @@ public class MultiTypeFragment extends Fragment {
                 list.add(new ThirdItem(R.drawable.luoluo_6));
             }
         }
-        final BaseMultiTypeAdapter baseMultiTypeAdapter = new BaseMultiTypeAdapter();
-        recyclerView.setAdapter(baseMultiTypeAdapter);
+        final BaseRecyclerViewAdapter baseRecyclerViewAdapter = new BaseRecyclerViewAdapter();
+        recyclerView.setAdapter(baseRecyclerViewAdapter);
 
 
-        baseMultiTypeAdapter.setOnItemClickListener(new BaseMultiTypeAdapter.OnItemClickListener() {
+        baseRecyclerViewAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
             }
         });
 
-        baseMultiTypeAdapter.setOnItemLongClickListener(new BaseMultiTypeAdapter.OnItemLongClickListener() {
+        baseRecyclerViewAdapter.setOnItemLongClickListener(new BaseRecyclerViewAdapter.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(View view, int position) {
                 Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
@@ -82,7 +82,7 @@ public class MultiTypeFragment extends Fragment {
         });
 
 
-        baseMultiTypeAdapter.setStatusItem(new SimpleItem(R.layout.layout_loading) {
+        baseRecyclerViewAdapter.setStatusItem(new SimpleItem(R.layout.layout_loading) {
             @Override
             public void onBindViewHolder(BaseViewHolder holder, int position) {
                 TextView t = holder.findViewById(R.id.tv_message);
@@ -93,7 +93,7 @@ public class MultiTypeFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                baseMultiTypeAdapter.setData(list);
+                baseRecyclerViewAdapter.setData(list);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -102,7 +102,7 @@ public class MultiTypeFragment extends Fragment {
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    baseMultiTypeAdapter.setStatusItem(new SimpleItem(R.layout.layout_empty) {
+                                    baseRecyclerViewAdapter.setStatusItem(new SimpleItem(R.layout.layout_empty) {
                                         @Override
                                         public void onBindViewHolder(BaseViewHolder holder, int position) {
                                             TextView t = holder.findViewById(R.id.tv_message);

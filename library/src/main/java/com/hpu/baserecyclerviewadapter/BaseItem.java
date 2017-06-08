@@ -9,12 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by Administrator on 2017/5/19.
+ * Created by Administrator on 2017/5/19
  */
 
 public abstract class BaseItem<T> implements Item {
     public T mData;
-    public int mLayoutRes;
+    private int mLayoutRes;
 
     public BaseItem(){
         this(null, 0);

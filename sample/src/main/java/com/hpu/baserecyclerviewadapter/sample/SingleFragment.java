@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hpu.baserecyclerviewadapter.EndlessRecyclerOnScrollListener;
-import com.hpu.baserecyclerviewadapter.BaseMultiTypeAdapter;
+import com.hpu.baserecyclerviewadapter.BaseRecyclerViewAdapter;
 import com.hpu.baserecyclerviewadapter.BaseViewHolder;
 import com.hpu.baserecyclerviewadapter.BaseItem;
 import com.hpu.baserecyclerviewadapter.SimpleItem;
@@ -58,7 +58,7 @@ public class SingleFragment extends Fragment {
                 }
             });
         }
-        final BaseMultiTypeAdapter adapter = new BaseMultiTypeAdapter();
+        final BaseRecyclerViewAdapter adapter = new BaseRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
         adapter.addHeader(new BaseItem() {
             @Override
@@ -92,7 +92,7 @@ public class SingleFragment extends Fragment {
                 adapter.setExtraItem(new SimpleItem(R.layout.layout_loadmore));
             }
         }, 4000);
-        adapter.setOnItemClickListener(new BaseMultiTypeAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();

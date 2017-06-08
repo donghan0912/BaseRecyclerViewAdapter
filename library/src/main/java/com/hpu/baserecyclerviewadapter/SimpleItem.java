@@ -3,11 +3,8 @@ package com.hpu.baserecyclerviewadapter;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 
-import com.hpu.baserecyclerviewadapter.BaseItem;
-import com.hpu.baserecyclerviewadapter.BaseViewHolder;
-
 /**
- * Created by Administrator on 2017/6/5.
+ * Created by Administrator on 2017/6/5
  */
 
 public class SimpleItem<T> extends BaseItem {
