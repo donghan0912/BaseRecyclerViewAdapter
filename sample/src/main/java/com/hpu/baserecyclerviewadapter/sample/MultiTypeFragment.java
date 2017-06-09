@@ -4,19 +4,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hpu.baserecyclerviewadapter.BaseItem;
 import com.hpu.baserecyclerviewadapter.BaseRecyclerViewAdapter;
 import com.hpu.baserecyclerviewadapter.BaseViewHolder;
-import com.hpu.baserecyclerviewadapter.BaseItem;
 import com.hpu.baserecyclerviewadapter.SimpleItem;
 import com.hpu.baserecyclerviewadapter.sample.multi.FirstItem;
 import com.hpu.baserecyclerviewadapter.sample.multi.SecondItem;
@@ -46,7 +44,6 @@ public class MultiTypeFragment extends Fragment {
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         list = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             list.add(new FirstItem("第" + i + "条数据"));
@@ -68,7 +65,6 @@ public class MultiTypeFragment extends Fragment {
         final BaseRecyclerViewAdapter baseRecyclerViewAdapter = new BaseRecyclerViewAdapter();
         recyclerView.setAdapter(baseRecyclerViewAdapter);
 
-
         baseRecyclerViewAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -84,41 +80,28 @@ public class MultiTypeFragment extends Fragment {
             }
         });
 
-
-        baseRecyclerViewAdapter.setStatusItem(new SimpleItem(R.layout.layout_loading) {
-            @Override
-            public void onBindViewHolder(BaseViewHolder holder, int position) {
-                TextView t = holder.findViewById(R.id.tv_message);
-                Toast.makeText(getContext(), t.getText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        baseRecyclerViewAdapter.setStatusItem(new SimpleItem(R.layout.layout_loading));
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                baseRecyclerViewAdapter.setData(list);
-                new Handler().postDelayed(new Runnable() {
+                baseRecyclerViewAdapter.setStatusItem(new SimpleItem(R.layout.layout_error) {
                     @Override
-                    public void run() {
-                        FragmentActivity activity = getActivity();
-                        if (activity != null) {
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    baseRecyclerViewAdapter.setStatusItem(new SimpleItem(R.layout.layout_empty) {
-                                        @Override
-                                        public void onBindViewHolder(BaseViewHolder holder, int position) {
-                                            TextView t = holder.findViewById(R.id.tv_message);
-                                            t.setText(getString(R.string.empty_content));
-                                            Toast.makeText(getContext(), t.getText().toString(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-                            });
-                        }
+                    public void onBindViewHolder(BaseViewHolder holder, int position) {
+                        holder.setOnClickListener(R.id.retry, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                baseRecyclerViewAdapter.setStatusItem(new SimpleItem(R.layout.layout_loading));
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        baseRecyclerViewAdapter.setData(list);
+                                    }
+                                }, 3000);
+                            }
+                        });
                     }
-                }, 4000);
+                });
             }
-        }, 4000);
+        }, 3000);
     }
 }

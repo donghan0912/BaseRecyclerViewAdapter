@@ -15,13 +15,14 @@ import com.hpu.baserecyclerviewadapter.BaseRecyclerViewAdapter;
 import com.hpu.baserecyclerviewadapter.BaseItem;
 import com.hpu.baserecyclerviewadapter.EndlessRecyclerOnScrollListener;
 import com.hpu.baserecyclerviewadapter.SimpleItem;
+import com.hpu.baserecyclerviewadapter.sample.item.SingleItem;
 import com.hpu.baserecyclerviewadapter.sample.multi.FirstItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lenovo on 2017/5/17.
+ * Created by lenovo on 2017/5/17
  */
 
 public class GlidFragment extends Fragment {
@@ -31,7 +32,7 @@ public class GlidFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment, null);
+        return inflater.inflate(R.layout.fragment, container, false);
     }
 
     @Override
@@ -45,12 +46,11 @@ public class GlidFragment extends Fragment {
 
         recyclerView.setLayoutManager(manager);
         for (int i = 0; i < 20; i++) {
-            list.add(new FirstItem("sss"));
+            list.add(new SingleItem(getAvatar()));
         }
         final BaseRecyclerViewAdapter adapter = new BaseRecyclerViewAdapter(list);
         recyclerView.setAdapter(adapter);
         adapter.addHeader(new SimpleItem(R.layout.layout_head));
-//        adapter.addFooter(new SimpleItem(R.layout.layout_foot));
         adapter.setExtraItem(new SimpleItem(R.layout.layout_loadmore));
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -59,7 +59,6 @@ public class GlidFragment extends Fragment {
                         || adapter.isFooter(position) || adapter.isStatus(position) ? 2 : 1;
             }
         });
-//        adapter.setStatusItem(new SimpleItem(R.layout.layout_loading));
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
             @Override
             public void onLoadMore() {
@@ -72,9 +71,9 @@ public class GlidFragment extends Fragment {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                List<BaseItem> list2 = new ArrayList<BaseItem>();
+                                List<BaseItem> list2 = new ArrayList<>();
                                 for (int i = 0; i < 20; i++) {
-                                    list2.add(new FirstItem("sss"));
+                                    list2.add(new SingleItem(getAvatar()));
                                 }
                                 list.addAll(list2);
                                 if (list.size() > 40) {
@@ -83,11 +82,16 @@ public class GlidFragment extends Fragment {
                                 }
                                 adapter.addData(list2);
                             }
-                        }, 4000);
+                        }, 3000);
 
                     }
-                }, 4000);
+                }, 3000);
             }
         });
+    }
+
+    private int getAvatar() {
+        int[] avatars = new int[]{R.drawable.ic_launcher, R.drawable.avatar};
+        return avatars[(int) (Math.random() * 2)];
     }
 }
