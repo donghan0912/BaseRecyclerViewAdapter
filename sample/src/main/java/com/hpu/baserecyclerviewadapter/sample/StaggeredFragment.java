@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -32,12 +33,15 @@ public class StaggeredFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment, null);
+        return inflater.inflate(R.layout.fragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swip_refresh);
+        refreshLayout.setEnabled(false);
+        
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
@@ -75,7 +79,7 @@ public class StaggeredFragment extends Fragment {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                List<BaseItem> list2 = new ArrayList<BaseItem>();
+                                List<BaseItem> list2 = new ArrayList<>();
                                 for (int i = 0; i < 20; i++) {
                                     WQ wq = new WQ(getRandomHeight(), getDrawable());
                                     list2.add(new FourthItem(wq));
@@ -103,29 +107,12 @@ public class StaggeredFragment extends Fragment {
     }
 
     private int getRandomHeight() {
-        int height = (int) (400 + Math.random() * 100);
-        return height;
+        return (int) (400 + Math.random() * 100);
     }
     
     private int getDrawable() {
-        int p = (int) (Math.random() * 7);
-        if (p % 7 == 0) {
-            return R.drawable.wq_1;
-        } else if (p % 7 == 1) {
-            return R.drawable.wq_2;
-        }else if (p % 7 == 2) {
-            return R.drawable.wq_3;
-        }else if (p % 7 == 3) {
-            return R.drawable.wq_4;
-        }else if (p % 7 == 4) {
-            return R.drawable.wq_5;
-        }else if (p % 7 == 5) {
-            return R.drawable.wq_6;
-        }else if (p % 7 == 6) {
-            return R.drawable.wq_7;
-        }else if (p % 7 == 7) {
-            return R.drawable.wq_8;
-        }
-        return R.drawable.luoluo_6;
+        int[] imgs = new int[]{R.drawable.wq_1, R.drawable.wq_2, R.drawable.wq_3, R.drawable.wq_4,
+                R.drawable.wq_5, R.drawable.wq_6, R.drawable.wq_7, R.drawable.wq_8};
+        return imgs[(int) (Math.random() * 8)];
     }
 }

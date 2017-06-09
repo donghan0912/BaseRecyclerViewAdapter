@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">落落</string>
+
+    <string name="empty_content">空空如也</string>
 </resources>

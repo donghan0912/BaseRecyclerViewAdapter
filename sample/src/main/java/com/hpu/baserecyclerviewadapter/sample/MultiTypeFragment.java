@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.DividerItemDecoration;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lenovo on 2017/5/17.
+ * Created by lenovo on 2017/5/17
  */
 
 public class MultiTypeFragment extends Fragment {
@@ -35,12 +35,15 @@ public class MultiTypeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment, null);
+        return inflater.inflate(R.layout.fragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swip_refresh);
+        refreshLayout.setEnabled(false);
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
@@ -106,7 +109,7 @@ public class MultiTypeFragment extends Fragment {
                                         @Override
                                         public void onBindViewHolder(BaseViewHolder holder, int position) {
                                             TextView t = holder.findViewById(R.id.tv_message);
-                                            t.setText("sssssssssssssssssssss");
+                                            t.setText(getString(R.string.empty_content));
                                             Toast.makeText(getContext(), t.getText().toString(), Toast.LENGTH_SHORT).show();
                                         }
                                     });

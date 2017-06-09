@@ -1,5 +1,6 @@
 package com.hpu.baserecyclerviewadapter;
 
+import android.support.annotation.IntRange;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,39 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         int index = mData.size() + mHeader.size();
         mData.addAll(data);
         notifyItemRangeChanged(index, data.size());
+    }
+
+    public void insertData(BaseItem data, @IntRange(from = 0) int index) {
+        mData.add(index, data);
+        notifyItemInserted(mHeader.size() + index);
+    }
+
+    public void insertData(List<BaseItem> data, @IntRange(from = 0) int index) {
+        mData.addAll(index, data);
+        int count = data == null ? 0 : data.size();
+        notifyItemRangeInserted(mHeader.size() + index, count);
+    }
+
+    public void remove(int position) {
+        mData.remove(position);
+        notifyItemRemoved(mHeader.size() + position);
+    }
+
+    public void remove(BaseItem data) {
+        if (data == null) {
+            return;
+        }
+        int indexOf = mData.indexOf(data);
+        if (mData.remove(data)) {
+            notifyItemRemoved(mHeader.size() + indexOf);
+        }
+    }
+
+    public void clear() {
+        int count = mData.size();
+        mData.clear();
+        notifyItemRangeRemoved(mHeader.size(), count);
+        removeExtraItem();
     }
 
     @Override
