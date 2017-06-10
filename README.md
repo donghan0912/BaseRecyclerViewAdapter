@@ -24,7 +24,7 @@
 7. 支持item长按、点击事件
 
 ## 文章
-
+![图一](screenshot/adapter_data.png)
 
 ## 使用
 
