@@ -113,7 +113,7 @@
         });
 
 ## 注意  
-**Adapter中的常规布局不要继承SingleItem，只有“头、尾、空、加载更多”等特殊类型布局，才可以使用这个。因为是通过 'item instanceof SimpleItem' 方式，来判断是否需要点击事件，当前item是否是Header、Footer等**
+**Adapter中的常规布局不要继承SingleItem，只有“头、尾、空、加载更多”等特殊类型布局，才可以使用这个。因为SimpleItem是作为当前item否需要点击、是否是Header、Footer等的依据**
 > 1. SimpleItem,是封装库中基于BaseItem的一个空实现类，目的是为了简化添加“头、尾、空、加载更多”等类型布局代码。
 > 2. 当添加不需要绑定数据的Layout布局的时候，可以直接new SingleItem（layoutId）,添加到Adapter中，比如加载中、加载更多等
 > 3. 当添加需要绑定数据的Layout布局的时候，可以通过实现SingleItem中的onBindViewHolder()方法，来绑定数据，或者处理点击事件，比如头布局、加载更多失败等
