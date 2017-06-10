@@ -5,7 +5,7 @@
 [下载 apk](https://fir.im/8n2j)
 
 ## 依赖
-	compile 'com.hpu:base-adapter:0.0.1'
+	compile 'com.hpu:base-adapter:0.0.2'
 
 ## 特点
 
