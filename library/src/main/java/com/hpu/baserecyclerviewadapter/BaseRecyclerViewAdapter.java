@@ -37,6 +37,10 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         notifyDataSetChanged();
     }
 
+    public List<BaseItem> getData() {
+        return mData;
+    }
+
     @SuppressWarnings("unused")
     public void addData(BaseItem data) {
         mData.add(data);
