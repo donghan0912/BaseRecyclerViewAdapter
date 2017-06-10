@@ -5,7 +5,10 @@
 [下载 apk](https://fir.im/8n2j)
 
 ## 依赖
-	compile 'com.hpu:base-adapter:0.0.2'
+
+	dependencies {
+		compile 'com.hpu:base-adapter:0.0.2'
+	}
 
 ## 特点
 
@@ -64,15 +67,26 @@
 
 		adapter.insertData();
 
-4. 加载更多实现：  
+4. 上拉加载更多实现：
+
+		// 上拉加载更多监听
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadMore() {
+               // 上拉加载
+                
+            }
+        });
+
+5. 添加加载更多、加载更多失败等布局：  
 
 		adapter.setExtraItem(new SimpleItem(R.layout.layout_loadmore));
 	
-5. 空、加载、出错等状态：
+6. 添加空、加载、出错等状态：
 
 		adapter.setStatusItem(new SimpleItem(R.layout.layout_loading));
 
-6. 添加Header布局
+7. 添加Header布局
 
 		// 添加头布局
         adapter.addHeader(new BaseItem(R.layout.layout_head) {
@@ -83,7 +97,7 @@
             }
         });
 
-7. 添加Footer布局
+8. 添加Footer布局
 
 		// 添加尾布局
         adapter.addFooter(new BaseItem(R.layout.layout_head) {
@@ -94,7 +108,7 @@
             }
         });
 
-8. item长按、点击事件：
+9. item长按、点击事件：
 
 		adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
@@ -112,14 +126,20 @@
             }
         });
 
+
+ 具体使用方式，请参考sample源码：[https://github.com/donghan0912/BaseRecyclerViewAdapter/tree/master/sample/src/main/java/com/hpu/baserecyclerviewadapter/sample](https://github.com/donghan0912/BaseRecyclerViewAdapter/tree/master/sample/src/main/java/com/hpu/baserecyclerviewadapter/sample)
+
 ## 注意  
-**Adapter中的常规布局不要继承SingleItem，只有“头、尾、空、加载更多”等特殊类型布局，才可以使用这个。因为SimpleItem是作为当前item否需要点击、是否是Header、Footer等的依据**
+**1. Adapter中的常规布局不要继承SingleItem，只有“头、尾、空、加载更多”等特殊类型布局，才可以使用这个。因为SimpleItem是作为当前item否需要点击、是否是Header、Footer等条件的依据**
+  
+**2. 不同类型的条目，不要使用同一个Layout文件，因为是根据Layout唯一标识ID作为ViewType**
+
 > 1. SimpleItem,是封装库中基于BaseItem的一个空实现类，目的是为了简化添加“头、尾、空、加载更多”等类型布局代码。
 > 2. 当添加不需要绑定数据的Layout布局的时候，可以直接new SingleItem（layoutId）,添加到Adapter中，比如加载中、加载更多等
 > 3. 当添加需要绑定数据的Layout布局的时候，可以通过实现SingleItem中的onBindViewHolder()方法，来绑定数据，或者处理点击事件，比如头布局、加载更多失败等
 
 ## 效果图
-具体使用方法，可查看sample测试案例代码  
+  
 ![图二](screenshot/linear.gif)  
 ![图三](screenshot/error.gif)  
 ![图四](screenshot/glid.gif)  
