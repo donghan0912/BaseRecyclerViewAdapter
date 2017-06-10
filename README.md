@@ -119,4 +119,8 @@
 > 3. 当添加需要绑定数据的Layout布局的时候，可以通过实现SingleItem中的onBindViewHolder()方法，来绑定数据，或者处理点击事件，比如头布局、加载更多失败等
 
 ## 效果图
-具体使用方法，可查看sample测试案例代码
+具体使用方法，可查看sample测试案例代码  
+![图二](screenshot/linear.gif)  
+![图三](screenshot/error.gif)  
+![图四](screenshot/glid.gif)  
+![图五](screenshot/staggered.gif)  
