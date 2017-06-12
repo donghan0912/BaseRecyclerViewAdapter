@@ -27,7 +27,7 @@
 7. 支持item长按、点击事件
 
 ## 文章
-[RecyclerView Adapter封装解析](http://www.jianshu.com/p/6b440dc264b1)  
+[RecyclerView Adapter封装解析](http://www.jianshu.com/p/8792d76b8148)  
 
 下图是adapter中数据结构：  
 ![图一](screenshot/adapter_data.png)
