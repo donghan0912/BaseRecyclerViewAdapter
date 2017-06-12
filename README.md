@@ -2,10 +2,10 @@
 一个简单、易维护的RecyclerVeiw.Adapter封装库  
 全库三个核心类，体积小，使用方便  
 支持RecyclerView三种LinearLayoutManager、gridlayoutmanager、staggeredgridlayoutmanager布局管理器  
-一行代码设置不同状态ViewLayout（支持任意类型的布局）  
-一行代码设置加载更多、加载失败等不同类型（支持任意类型的布局）  
-同时支持点击、长按、上拉加载更多、下拉加载更多等常用功能  
-详情请查看sample示例，同时也可以下载apk，查看示例效果
+一行代码设置不同状态ViewLayout（支持EmptyView、ErrorView、Loading等任意类型的布局，需要给这些view绑定数据或者添加点击事件的话，只需重载一个方法即可）  
+一行代码设置加载更多、加载失败等不同类型（支持LoadMore、LoadMoreError等任意类型的布局，需要给这些view绑定数据或者添加点击事件的话，只需重载一个方法即可）   
+同时支持点击、长按、上拉加载更多、下拉加载更多等常用功能  
+详情请查看sample示例，同时也可以下载apk，查看示例效果  
 
 ## APK下载
 [下载 apk](https://fir.im/8n2j)
