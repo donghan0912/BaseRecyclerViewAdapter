@@ -5,10 +5,9 @@
 
 支持RecyclerView三种LinearLayoutManager、gridlayoutmanager、staggeredgridlayoutmanager布局管理器  
 
-**一行代码设置不同状态Layout**（支持EmptyView、ErrorView、Loading等任意类型的布局以及数据绑定、事件点击）       
+一行代码设置不同状态Layout（支持EmptyView、ErrorView、Loading等任意类型的布局以及数据绑定、事件点击）       
 
-**一行代码设置加载更多、加载失败等Layout**（支持LoadMore、LoadMoreError等任意类型的布局以及数据绑定、事件点击）         
-
+一行代码设置加载更多、加载失败等Layout（支持LoadMore、LoadMoreError等任意类型的布局以及数据绑定、事件点击）         
 
 同时支持点击、长按、上拉加载更多、下拉加载更多等常用功能  
 
