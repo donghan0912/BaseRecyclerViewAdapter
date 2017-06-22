@@ -79,7 +79,7 @@ public class StaggeredFragment extends Fragment {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                List<BaseItem> list2 = new ArrayList<>();
+                                List<FourthItem> list2 = new ArrayList<>();
                                 for (int i = 0; i < 20; i++) {
                                     WQ wq = new WQ(getRandomHeight(), getDrawable());
                                     list2.add(new FourthItem(wq));

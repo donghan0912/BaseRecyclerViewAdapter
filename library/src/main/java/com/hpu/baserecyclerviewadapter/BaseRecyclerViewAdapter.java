@@ -1,6 +1,7 @@
 package com.hpu.baserecyclerviewadapter;
 
 import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +23,14 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         this(null);
     }
 
-    public BaseRecyclerViewAdapter(List<BaseItem> data) {
+    public BaseRecyclerViewAdapter(List<? extends BaseItem> data) {
         mData = new ArrayList<>();
         if (data != null) {
             mData.addAll(data);
         }
     }
 
-    public void setData(List<BaseItem> data) {
+    public void setData(List<? extends BaseItem> data) {
         if (mData.size() > 0) {
             mData.clear();
         }
@@ -47,7 +48,7 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         notifyItemInserted(mHeader.size() + mData.size());
     }
 
-    public void addData(List<BaseItem> data) {
+    public void addData(List<? extends BaseItem> data) {
         int index = mData.size() + mHeader.size();
         mData.addAll(data);
         notifyItemRangeChanged(index, data.size());
@@ -58,10 +59,9 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         notifyItemInserted(mHeader.size() + index);
     }
 
-    public void insertData(List<BaseItem> data, @IntRange(from = 0) int index) {
+    public void insertData(@NonNull List<? extends BaseItem> data, @IntRange(from = 0) int index) {
         mData.addAll(index, data);
-        int count = data == null ? 0 : data.size();
-        notifyItemRangeInserted(mHeader.size() + index, count);
+        notifyItemRangeInserted(mHeader.size() + index, data.size());
     }
 
     public void remove(int position) {

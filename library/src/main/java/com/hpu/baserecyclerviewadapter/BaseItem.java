@@ -13,7 +13,7 @@ import android.view.ViewGroup;
  */
 
 public abstract class BaseItem<T> implements Item {
-    public T mData;
+    protected T mData;
     private int mLayoutRes;
 
     public BaseItem(){
