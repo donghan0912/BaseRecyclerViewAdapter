@@ -16,6 +16,7 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
     private List<BaseItem> mHeader = new ArrayList<>();
     private List<BaseItem> mFooter = new ArrayList<>();
     private List<SimpleItem> mExtra = new ArrayList<>();
+    private SimpleItem mStatusItem;
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
 
@@ -191,12 +192,20 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         if (simpleItem == null) {
             throw new NullPointerException("the parameter simpleItem can't be null");
         }
+        this.mStatusItem = simpleItem;
         removeExtraItem();
         int count = mData.size();
         mData.clear();
         notifyItemRangeRemoved(mHeader.size(), count);
         mData.add(simpleItem);
         notifyItemInserted(mHeader.size());
+    }
+
+    public void removeStatusItem() {
+        if (mStatusItem != null) {
+            mData.remove(mStatusItem);
+            notifyItemRemoved(mHeader.size());
+        }
     }
 
     /**

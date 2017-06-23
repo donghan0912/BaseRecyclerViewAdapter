@@ -80,12 +80,12 @@ public class StaggeredFragment extends Fragment {
                             @Override
                             public void run() {
                                 List<FourthItem> list2 = new ArrayList<>();
-                                for (int i = 0; i < 20; i++) {
+                                for (int i = 0; i < 21; i++) {
                                     WQ wq = new WQ(getRandomHeight(), getDrawable());
                                     list2.add(new FourthItem(wq));
                                 }
                                 list.addAll(list2);
-                                if (list.size() > 40) {
+                                if (list.size() > 70) {
                                     adapter.setExtraItem(new SimpleItem(R.layout.layout_loadmore_complete) {
                                         @Override
                                         public void onBindViewHolder(BaseViewHolder holder, int position) {
