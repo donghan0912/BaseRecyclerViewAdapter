@@ -14,6 +14,9 @@
 ## APK下载
 [下载 apk](https://fir.im/8n2j)
 
+## arr包下载
+[arr](library/build/outputs/aar/library-release.aar)
+
 ## 依赖
 
 	dependencies {

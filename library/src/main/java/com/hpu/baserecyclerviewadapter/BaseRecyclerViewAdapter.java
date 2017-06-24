@@ -16,7 +16,7 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
     private List<BaseItem> mHeader = new ArrayList<>();
     private List<BaseItem> mFooter = new ArrayList<>();
     private List<SimpleItem> mExtra = new ArrayList<>();
-    private SimpleItem mStatusItem;
+    private List<SimpleItem> mStatus = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
 
@@ -46,28 +46,28 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
     @SuppressWarnings("unused")
     public void addData(BaseItem data) {
         mData.add(data);
-        notifyItemInserted(mHeader.size() + mData.size());
+        notifyItemInserted(mHeader.size() + mStatus.size() + mData.size());
     }
 
     public void addData(List<? extends BaseItem> data) {
-        int index = mData.size() + mHeader.size();
+        int index = mHeader.size() + mStatus.size() + mData.size();
         mData.addAll(data);
         notifyItemRangeChanged(index, data.size());
     }
 
     public void insertData(BaseItem data, @IntRange(from = 0) int index) {
         mData.add(index, data);
-        notifyItemInserted(mHeader.size() + index);
+        notifyItemInserted(mHeader.size() + mStatus.size() + index);
     }
 
     public void insertData(@NonNull List<? extends BaseItem> data, @IntRange(from = 0) int index) {
         mData.addAll(index, data);
-        notifyItemRangeInserted(mHeader.size() + index, data.size());
+        notifyItemRangeInserted(mHeader.size() + mStatus.size() + index, data.size());
     }
 
     public void remove(int position) {
         mData.remove(position);
-        notifyItemRemoved(mHeader.size() + position);
+        notifyItemRemoved(mHeader.size() + mStatus.size() + position);
     }
 
     public void remove(BaseItem data) {
@@ -76,7 +76,7 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         }
         int indexOf = mData.indexOf(data);
         if (mData.remove(data)) {
-            notifyItemRemoved(mHeader.size() + indexOf);
+            notifyItemRemoved(mHeader.size() + mStatus.size() + indexOf);
         }
     }
 
@@ -99,6 +99,11 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
                 return item.onCreateViewHolder(parent, viewType);
             }
         }
+        for (SimpleItem item : mStatus) {
+            if (viewType == item.getItemViewType()) {
+                return item.onCreateViewHolder(parent, viewType);
+            }
+        }
         for (SimpleItem item : mExtra) {
             if (viewType == item.getItemViewType()) {
                 return item.onCreateViewHolder(parent, viewType);
@@ -107,9 +112,6 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         for (BaseItem item : mData) {
             if (viewType == item.getItemViewType()) {
                 final BaseViewHolder viewHolder = item.onCreateViewHolder(parent, viewType);
-                if (item instanceof SimpleItem) {
-                    return viewHolder;
-                }
                 if (mOnItemClickListener != null) {
                     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -134,36 +136,40 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        int footerPosition = position - mData.size() - mHeader.size() - mExtra.size();
-        int loadMorePosition = position - mData.size() - mHeader.size();
-
-        if (mHeader.size() > 0 && position < mHeader.size()) {
+        if (isHeader(position)) {
             mHeader.get(position).onBindViewHolder(holder, position);
-        } else if (mFooter.size() > 0 && footerPosition >= 0) {
+        } else if (isFooter(position)) {
+            int footerPosition = position - mHeader.size() - mStatus.size() - mData.size() - mExtra.size();
             mFooter.get(footerPosition).onBindViewHolder(holder, footerPosition);
-        } else if (mExtra.size() > 0 && loadMorePosition >= 0) {
-            mExtra.get(loadMorePosition).onBindViewHolder(holder, loadMorePosition);
+        } else if (isStatus(position)) {
+            int statusPosition = position- mHeader.size();
+            mStatus.get(statusPosition).onBindViewHolder(holder, statusPosition);
+        } else if (isExtra(position)) {
+            int extraPosition = position- mHeader.size() - mStatus.size() - mData.size();
+            mExtra.get(extraPosition).onBindViewHolder(holder, extraPosition);
         } else {
-            int dataPosition = position - mHeader.size();
+            int dataPosition = position - mHeader.size() - mStatus.size();
             mData.get(dataPosition).onBindViewHolder(holder, dataPosition);
         }
     }
 
     @Override
     public int getItemCount() {
-        return mHeader.size() + mData.size() + mFooter.size() + mExtra.size();
+        return mHeader.size() + mStatus.size() + mData.size() + mFooter.size() + mExtra.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mHeader.size() > 0 && position < mHeader.size()) {
+        if (isHeader(position)) {
             return mHeader.get(position).getItemViewType();
-        } else if (mFooter.size() > 0 && position >= mData.size() + mHeader.size() + mExtra.size()) {
-            return mFooter.get(position - mData.size() - mHeader.size() - mExtra.size()).getItemViewType();
-        } else if (mExtra.size() > 0 && position >= mData.size() + mHeader.size()) {
-            return mExtra.get(position - mData.size() - mHeader.size()).getItemViewType();
+        } else if (isFooter(position)) {
+            return mFooter.get(position - mHeader.size() - mStatus.size() - mData.size() - mExtra.size()).getItemViewType();
+        } else if (isStatus(position)) {
+            return mStatus.get(position - mHeader.size()).getItemViewType();
+        } else if (isExtra(position)) {
+            return mExtra.get(position - mHeader.size() - mStatus.size() - mData.size()).getItemViewType();
         }
-        return mData.get(position - mHeader.size()).getItemViewType();
+        return mData.get(position - mHeader.size() - mStatus.size()).getItemViewType();
     }
 
     public void addHeader(BaseItem item) {
@@ -180,7 +186,7 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
             throw new NullPointerException("item can't be null");
         }
         mFooter.add(item);
-        notifyItemInserted(mData.size() + mHeader.size());
+        notifyItemInserted(mHeader.size() + mStatus.size() + mData.size() + mExtra.size());
     }
 
     /**
@@ -192,18 +198,15 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         if (simpleItem == null) {
             throw new NullPointerException("the parameter simpleItem can't be null");
         }
-        this.mStatusItem = simpleItem;
-        removeExtraItem();
-        int count = mData.size();
-        mData.clear();
-        notifyItemRangeRemoved(mHeader.size(), count);
-        mData.add(simpleItem);
+        mStatus.clear();
+        notifyItemRemoved(mHeader.size());
+        mStatus.add(simpleItem);
         notifyItemInserted(mHeader.size());
     }
 
     public void removeStatusItem() {
-        if (mStatusItem != null) {
-            mData.remove(mStatusItem);
+        if (mStatus.size() > 0) {
+            mStatus.clear();
             notifyItemRemoved(mHeader.size());
         }
     }
@@ -218,14 +221,16 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
             throw new NullPointerException("the parameter simpleItem can't be null");
         }
         mExtra.clear();
-        notifyItemRemoved(mHeader.size() + mData.size());
+        notifyItemRemoved(mHeader.size() + mStatus.size() + mData.size());
         mExtra.add(simpleItem);
-        notifyItemInserted(mHeader.size() + mData.size());
+        notifyItemInserted(mHeader.size() + mStatus.size() + mData.size());
     }
 
     public void removeExtraItem() {
-        mExtra.clear();
-        notifyItemRemoved(mHeader.size() + mData.size());
+        if (mExtra.size() > 0) {
+            mExtra.clear();
+            notifyItemRemoved(mHeader.size() + mData.size());
+        }
     }
 
     public boolean isHeader(int position) {
@@ -233,16 +238,17 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
     }
 
     public boolean isFooter(int position) {
-        return mFooter.size() > 0 && position >= mData.size() + mHeader.size() + mExtra.size();
+        return mFooter.size() > 0 && position >= mHeader.size() + mStatus.size() + mData.size() + mExtra.size();
     }
 
     public boolean isExtra(int position) {
-        return mExtra.size() > 0 && position >= mData.size() + mHeader.size() && position < (mData.size() + mHeader.size() + mExtra.size());
+        return mExtra.size() > 0 && position >= mHeader.size() + mStatus.size() + mData.size()
+                && position < mHeader.size() + mStatus.size() + mData.size() + mExtra.size();
     }
 
     public boolean isStatus(int position) {
-        return mData.size() == 1 && mData.get(0) instanceof SimpleItem && (position >= mHeader.size()
-                && position < mHeader.size() + mData.size());
+        return mStatus.size() > 0 && position >= mHeader.size()
+                && position < mHeader.size() + mStatus.size();
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
