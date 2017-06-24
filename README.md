@@ -17,7 +17,7 @@
 ## 依赖
 
 	dependencies {
-		compile 'com.hpu:base-adapter:0.0.2'
+		compile 'com.hpu:base-adapter:0.0.3'
 	}
 
 ## 特点
