@@ -43,6 +43,15 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         return mData;
     }
 
+    /**
+     *
+     * @param position the position of the item
+     * @return the item data
+     */
+    public BaseItem getItem(int position) {
+        return mData == null ? null : mData.get(position);
+    }
+
     @SuppressWarnings("unused")
     public void addData(BaseItem data) {
         mData.add(data);
@@ -116,7 +125,7 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
                     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mOnItemClickListener.onItemClick(viewHolder.itemView, viewHolder.getAdapterPosition() - mHeader.size());
+                            mOnItemClickListener.onItemClick(viewHolder.itemView, viewHolder.getAdapterPosition() - mHeader.size() - mStatus.size());
                         }
                     });
                 }
@@ -124,7 +133,7 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
                     viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
-                            return mOnItemLongClickListener.onItemLongClick(viewHolder.itemView, viewHolder.getAdapterPosition() - mHeader.size());
+                            return mOnItemLongClickListener.onItemLongClick(viewHolder.itemView, viewHolder.getAdapterPosition() - mHeader.size() - mStatus.size());
                         }
                     });
                 }
