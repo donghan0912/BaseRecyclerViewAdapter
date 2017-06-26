@@ -1,3 +1,4 @@
+![](https://img.shields.io/badge/build-v0.0.3-brightgreen.svg)
 ## 介绍
 一个简单、易维护的RecyclerVeiw.Adapter封装库  
 
