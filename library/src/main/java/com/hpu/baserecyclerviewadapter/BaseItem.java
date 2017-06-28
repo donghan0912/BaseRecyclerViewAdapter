@@ -37,6 +37,10 @@ public abstract class BaseItem<T> implements Item {
         this.mData = t;
     }
 
+    public T getData() {
+        return mData;
+    }
+
     @Override
     public int getLayoutResource() {
         return mLayoutRes;

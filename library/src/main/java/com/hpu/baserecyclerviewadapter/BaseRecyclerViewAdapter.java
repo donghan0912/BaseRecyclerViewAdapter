@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class BaseRecyclerViewAdapter<T extends BaseItem> extends RecyclerView.Adapter<BaseViewHolder> {
 
-    private List<BaseItem> mData;
-    private List<BaseItem> mHeader = new ArrayList<>();
-    private List<BaseItem> mFooter = new ArrayList<>();
+    private List<T> mData;
+    private List<SimpleItem> mHeader = new ArrayList<>();
+    private List<SimpleItem> mFooter = new ArrayList<>();
     private List<SimpleItem> mExtra = new ArrayList<>();
     private List<SimpleItem> mStatus = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener;
@@ -24,14 +24,16 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         this(null);
     }
 
-    public BaseRecyclerViewAdapter(List<? extends BaseItem> data) {
+    @SuppressWarnings("unchecked")
+    public BaseRecyclerViewAdapter(List<T> data) {
         mData = new ArrayList<>();
         if (data != null) {
             mData.addAll(data);
         }
     }
 
-    public void setData(List<? extends BaseItem> data) {
+    @SuppressWarnings("unchecked")
+    public void setData(List<T> data) {
         if (mData.size() > 0) {
             mData.clear();
         }
@@ -39,7 +41,8 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         notifyDataSetChanged();
     }
 
-    public List<BaseItem> getData() {
+    @SuppressWarnings("unchecked")
+    public List<T> getData() {
         return mData;
     }
 
@@ -48,28 +51,29 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
      * @param position the position of the item
      * @return the item data
      */
-    public BaseItem getItem(int position) {
+    public T getItem(int position) {
         return mData == null ? null : mData.get(position);
     }
 
     @SuppressWarnings("unused")
-    public void addData(BaseItem data) {
+    public void addData(T data) {
         mData.add(data);
         notifyItemInserted(mHeader.size() + mStatus.size() + mData.size());
     }
 
-    public void addData(List<? extends BaseItem> data) {
+    @SuppressWarnings("unchecked")
+    public void addData(List<T> data) {
         int index = mHeader.size() + mStatus.size() + mData.size();
         mData.addAll(data);
         notifyItemRangeChanged(index, data.size());
     }
 
-    public void insertData(BaseItem data, @IntRange(from = 0) int index) {
+    public void insertData(T data, @IntRange(from = 0) int index) {
         mData.add(index, data);
         notifyItemInserted(mHeader.size() + mStatus.size() + index);
     }
 
-    public void insertData(@NonNull List<? extends BaseItem> data, @IntRange(from = 0) int index) {
+    public void insertData(@NonNull List<T> data, @IntRange(from = 0) int index) {
         mData.addAll(index, data);
         notifyItemRangeInserted(mHeader.size() + mStatus.size() + index, data.size());
     }
@@ -79,7 +83,7 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         notifyItemRemoved(mHeader.size() + mStatus.size() + position);
     }
 
-    public void remove(BaseItem data) {
+    public void remove(T data) {
         if (data == null) {
             return;
         }
@@ -118,7 +122,7 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
                 return item.onCreateViewHolder(parent, viewType);
             }
         }
-        for (BaseItem item : mData) {
+        for (T item : mData) {
             if (viewType == item.getItemViewType()) {
                 final BaseViewHolder viewHolder = item.onCreateViewHolder(parent, viewType);
                 if (mOnItemClickListener != null) {
@@ -181,7 +185,7 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
         return mData.get(position - mHeader.size() - mStatus.size()).getItemViewType();
     }
 
-    public void addHeader(BaseItem item) {
+    public void addHeader(SimpleItem item) {
         if (item == null) {
             throw new NullPointerException("item can't be null");
         }
@@ -190,7 +194,7 @@ public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder
     }
 
     @SuppressWarnings("unused")
-    public void addFooter(BaseItem item) {
+    public void addFooter(SimpleItem item) {
         if (item == null) {
             throw new NullPointerException("item can't be null");
         }

@@ -28,7 +28,7 @@ import java.util.List;
 
 public class SingleFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private SwipeRefreshLayout mRefreshLayout;
-    private BaseRecyclerViewAdapter adapter;
+    private BaseRecyclerViewAdapter<BaseItem> adapter;
     private boolean loadMore = true;
     private List<BaseItem> list = new ArrayList<>();
     private boolean isRefresh = false;
@@ -56,11 +56,11 @@ public class SingleFragment extends Fragment implements SwipeRefreshLayout.OnRef
         for (int i = 1; i < 20; i++) {
             testData.add(new SingleItem(getAvatar()));
         }
-        adapter = new BaseRecyclerViewAdapter();
+        adapter = new BaseRecyclerViewAdapter<>();
         recyclerView.setAdapter(adapter);
 
         // 添加头布局
-        adapter.addHeader(new BaseItem(R.layout.layout_head) {
+        adapter.addHeader(new SimpleItem(R.layout.layout_head) {
 
             @Override
             public void onBindViewHolder(final BaseViewHolder holder, final int position) {

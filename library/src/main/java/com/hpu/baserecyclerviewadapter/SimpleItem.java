@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
  * Created by Administrator on 2017/6/5
  */
 
-public class SimpleItem<T> extends BaseItem {
+public class SimpleItem<T> extends BaseItem<T> {
 
     public SimpleItem(@LayoutRes int resource) {
         super(resource);

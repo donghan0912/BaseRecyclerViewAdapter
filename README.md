@@ -68,11 +68,11 @@
 2. 添加测试item数据，并绑定adapter
 
 		// 测试数据
-        List<BaseItem> testData = new ArrayList<>();
+        List<SingleItem> testData = new ArrayList<>();
         for (int i = 1; i < 20; i++) {
             testData.add(new SingleItem(getAvatar()));
         }
-        adapter = new BaseRecyclerViewAdapter(testData);
+        adapter = new BaseRecyclerViewAdapter<SingleItem>(testData);
         recyclerView.setAdapter(adapter);
 
 3. 下拉刷新实现：  
@@ -103,10 +103,10 @@
 7. 添加Header布局
 
 		// 添加头布局
-        adapter.addHeader(new BaseItem(R.layout.layout_head) {
+        adapter.addHeader(new SimpleItem(R.layout.layout_head) {
 
             @Override
-            public void onBindViewHolder(final BaseViewHolder holder, final int position) {
+            public void onBindViewHolder(BaseViewHolder holder, int position) {
                 // 绑定数据
             }
         });
@@ -114,7 +114,7 @@
 8. 添加Footer布局
 
 		// 添加尾布局
-        adapter.addFooter(new BaseItem(R.layout.layout_head) {
+        adapter.addFooter(new SimpleItem(R.layout.layout_head) {
 
             @Override
             public void onBindViewHolder(final BaseViewHolder holder, final int position) {
@@ -143,10 +143,8 @@
 
  具体使用方式，请参考sample源码：[https://github.com/donghan0912/BaseRecyclerViewAdapter/tree/master/sample/src/main/java/com/hpu/baserecyclerviewadapter/sample](https://github.com/donghan0912/BaseRecyclerViewAdapter/tree/master/sample/src/main/java/com/hpu/baserecyclerviewadapter/sample)
 
-## 注意  
-**1. Adapter中的常规布局不要继承SingleItem，只有“头、尾、空、加载更多”等特殊类型布局，才可以使用这个。因为SimpleItem是作为当前item否需要点击、是否是Header、Footer等条件的依据**
-  
-**2. 不同类型的条目，不要使用同一个Layout文件，因为是根据Layout唯一标识ID作为ViewType**
+## 注意   
+**不同类型的条目，不要使用同一个Layout文件，因为是根据Layout唯一标识ID作为ViewType**
 
 > 1. SimpleItem,是封装库中基于BaseItem的一个空实现类，目的是为了简化添加“头、尾、空、加载更多”等类型布局代码。
 > 2. 当添加不需要绑定数据的Layout布局的时候，可以直接new SingleItem（layoutId）,添加到Adapter中，比如加载中、加载更多等

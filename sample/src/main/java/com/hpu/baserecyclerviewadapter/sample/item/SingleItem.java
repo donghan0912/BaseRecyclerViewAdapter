@@ -12,7 +12,7 @@ import com.hpu.baserecyclerviewadapter.sample.R;
  * Created by Administrator on 2017/6/9.
  */
 
-public class SingleItem extends BaseItem<Integer> {
+public class SingleItem extends BaseItem {
 
     public SingleItem(@DrawableRes int id) {
         this.mData = id;
