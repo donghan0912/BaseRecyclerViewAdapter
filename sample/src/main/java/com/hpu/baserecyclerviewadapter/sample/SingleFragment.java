@@ -76,6 +76,7 @@ public class SingleFragment extends Fragment implements SwipeRefreshLayout.OnRef
             public void run() {
                 // 数据加载成功之后，方可下拉刷新
                 mRefreshLayout.setEnabled(true);
+                adapter.removeStatusItem();
                 // adapter加载数据
                 adapter.setData(testData);
                 // 如果有更多数据，设置加载更多布局
