@@ -94,6 +94,7 @@ public class MultiTypeFragment extends Fragment {
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
+                                        baseRecyclerViewAdapter.removeStatusItem();
                                         baseRecyclerViewAdapter.setData(list);
                                     }
                                 }, 3000);
